@@ -24,6 +24,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 
 public class NoConformidadFragment extends Fragment {
     //creacion de las variables
@@ -32,11 +34,11 @@ public class NoConformidadFragment extends Fragment {
     private TableLayout tabla;
     private TableRow fila;
     private LinearLayout rootView;
-    private EditText eddescripcion,edreferencia;
-    private Spinner sprequisito,sptipo;
+    private EditText eddescripcion, edreferencia;
+    private Spinner sprequisito, sptipo;
     private CheckBox cbseleccion;
 
-    private Button btadd,btdelete;
+    private Button btadd, btdelete;
 
 
     public NoConformidadFragment() {
@@ -50,6 +52,7 @@ public class NoConformidadFragment extends Fragment {
         inflater.inflate(R.menu.menu_noconformidad, menu);
 
     }
+
     //funcionalidad del menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -66,53 +69,58 @@ public class NoConformidadFragment extends Fragment {
 
     }
 
-    /** añadir fila al tablelayout
+    /**
+     * añadir fila al tablelayout
      */
-    private void addfila(){
-            //creamos una nueva fila
-            fila=new TableRow(getContext());
+    private void addfila() {
+        //creamos una nueva fila
+        fila = new TableRow(getContext());
 
-            //añadimos los componentes que forman la fila
-            edreferencia=new EditText(getContext());
-            eddescripcion=new EditText(getContext());
-            sprequisito=new Spinner(getContext());
-            sptipo=new Spinner(getContext());
-            cbseleccion=new CheckBox(getContext());
-        //adaptamos el array
-        //ArrayAdapter adaptador = new ArrayAdapter(getContext(),R.array.valores_noconformidad,sprequisito);
+        //añadimos los componentes que forman la fila
+        edreferencia = new EditText(getContext());
+        eddescripcion = new EditText(getContext());
+        sprequisito = new Spinner(getContext());
+        sptipo = new Spinner(getContext());
+        cbseleccion = new CheckBox(getContext());
 
+        //adaptador de array
+        ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(getContext(), R.array.valores_noconformidad, R.layout.layout_spinner);
         //y cargamos
-        //sprequisito.setAdapter(adaptador);
+        sprequisito.setAdapter(adp);
 
 
-            //añadimos a la tabla
-            fila.addView(edreferencia);
-            fila.addView(eddescripcion);
-            fila.addView(sprequisito);
-            fila.addView(sptipo);
-            fila.addView(cbseleccion);
-            //y la añadimos a la vista
+        //añadimos a la tabla
+        fila.addView(edreferencia);
+        fila.addView(eddescripcion);
+        fila.addView(sprequisito);
+        fila.addView(sptipo);
+        fila.addView(cbseleccion);
+        //y la añadimos a la vista
 
-            tabla.addView(fila);
+        tabla.addView(fila);
 
-        Toast.makeText(getContext(),"fila añadida",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "fila añadida", Toast.LENGTH_SHORT).show();
     }
 
-    private void deletefila(){
-
-        int seleccion=0;
-        int datos=(tabla.getChildCount())-1;
-       for(int i=1;i<tabla.getChildCount();i++){
+    private void deletefila() {
+        //contador de seleccion
+        int seleccion = 0;
+        //numero de filas ,(la primera es el titulo y no se cuenta
+        int datos = (tabla.getChildCount()) - 1;
+        //recorremos las filas
+        for (int i = 1; i < tabla.getChildCount(); i++) {
 
             //comprobamos si el cb esta seleccionado
-            cbseleccion=(CheckBox)fila.getChildAt(4);
+            cbseleccion = (CheckBox) fila.getChildAt(4);
+            //checkbox
+            boolean dato=cbseleccion.isChecked();
+
             //comprobamos si el checkbox esta seleccionado
-            if(cbseleccion.isChecked()){
+            if (dato==true)
                 seleccion++;
 
-            }
         }
-        Toast.makeText(getContext(),"total seleccionados"+seleccion+"de registros"+datos,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "total seleccionados " + seleccion + " de registros " + datos, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -122,7 +130,7 @@ public class NoConformidadFragment extends Fragment {
         rootView = (LinearLayout) inflater.inflate(R.layout.fragment_no_conformidad, container, false);
 
         //referencia a la tabla
-        tabla=(TableLayout)rootView.findViewById(R.id.tbnoconformidades);
+        tabla = (TableLayout) rootView.findViewById(R.id.tbnoconformidades);
 
         //que ocupen todo
         tabla.setColumnStretchable(0, true);

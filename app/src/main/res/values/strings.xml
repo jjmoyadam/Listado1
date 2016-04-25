@@ -48,7 +48,6 @@
     <string name="tit_portadaauditoria">Portada Auditoria</string>
 
     <string-array name="valores_noconformidad">
-        <item></item>
         <item>OC</item>
         <item>DI</item>
         <item>IR</item>
@@ -56,7 +55,6 @@
     </string-array>
 
     <string-array name="valores_array">
-        <item></item>
         <item>V</item>
         <item>F</item>
         <item>NA</item>
