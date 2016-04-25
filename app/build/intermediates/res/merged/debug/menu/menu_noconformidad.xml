@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/btn_add_nc"
+        android:icon="@drawable/ic_add_nc"
+        android:title="@string/add_nc"
+        android:orderInCategory="1"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/btn_borrar_nc"
+        android:icon="@drawable/ic_delete"
+        android:orderInCategory="2"
+        android:title="@string/borrar_nc"
+        app:showAsAction="always"/>
+
+</menu>

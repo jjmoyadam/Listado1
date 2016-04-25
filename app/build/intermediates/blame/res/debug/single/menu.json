@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_main.xml",
+        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\menu\\menu_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_pc.xml",
+        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\menu\\menu_pc.xml"
+    },
+    {
+        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_firma.xml",
+        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\menu\\menu_firma.xml"
+    },
+    {
+        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_noconformidad.xml",
+        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\menu\\menu_noconformidad.xml"
+    },
+    {
+        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_portada.xml",
+        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\menu\\menu_portada.xml"
+    }
+]

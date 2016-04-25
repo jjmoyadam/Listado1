@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="COL_CODIGO">0</integer>
+    <integer name="COL_DESCRIPCION">1</integer>
+    <integer name="COL_CLASIFICACION">2</integer>
+    <integer name="COL_RESPUESTA">3</integer>
+    <integer name="COL_OBSERVACIONES">4</integer>
+    <integer name="COL_OPCIONES">3</integer>
+
+    <integer name="COL_REFERENCIA_NC">0</integer>
+    <integer name="COL_DESCRIPCION_NC">1</integer>
+    <integer name="COL_REQUISITOS_NC">2</integer>
+    <integer name="COL_TIPO_NC">3</integer>
+
+    <integer name="COL_FECHA_PORTADA">0</integer>
+    <integer name="COL_VISITA_PORTADA">1</integer>
+    <integer name="COL_OPERADOR_PORTADA">2</integer>
+    <integer name="COL_VISTA">3</integer>
+
+
+
+</resources>
