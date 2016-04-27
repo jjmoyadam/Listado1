@@ -34,8 +34,8 @@ import android.widget.Toast;
 
 public class PuntoControlFragment extends Fragment {
 
-    public static final String ARG_NOMBRE_AUDITORIA = "nombre_lista";
-    public static final String ARG_NUEVA_AUDITORIA= "nueva_lista";
+    public static final String ARG_NOMBRE_AUDITORIA = "nombre_Auditoria";
+    public static final String ARG_NUEVA_AUDITORIA= "nueva_Auditoria";
 	private PCIterator pcIter;
 	private Context contexto;
 	private TextView tvDescripcionPC, tvDescripcionGrupo, tvClasificacion, tvCompletado;
@@ -257,8 +257,11 @@ public class PuntoControlFragment extends Fragment {
 		final EditText etNumVisita = (EditText)v.findViewById(R.id.et_numero_visita);
 		final EditText etNumOp = (EditText)v.findViewById(R.id.et_numero_operador);
 		
-		if(pcIter.getListaVerificacion().numAuditoria != 0) etNumOp.setText(""+pcIter.getListaVerificacion().numAuditoria);
-		if(pcIter.getListaVerificacion().numOperador != 0) etNumOp.setText(""+pcIter.getListaVerificacion().numOperador);
+		if(pcIter.getListaVerificacion().numAuditoria != 0)
+			etNumOp.setText(""+pcIter.getListaVerificacion().numAuditoria);
+
+		if(pcIter.getListaVerificacion().numOperador != 0)
+			etNumOp.setText(""+pcIter.getListaVerificacion().numOperador);
 
 		ad
 		.setTitle(R.string.tit_cabecera)

@@ -7,6 +7,7 @@ import agrocolor.listaverificacion.modelos.Auditoria;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -35,7 +36,9 @@ public class MainActivity extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
+    private String nombre;
     private Auditoria auditoria;
+
 
     //tipo enumerado de creacion de 2 tipos de objetos ListadoLV y PuntoControl
     private enum Modo {
@@ -45,6 +48,11 @@ public class MainActivity extends ActionBarActivity {
         NoConformidades,
         Firma,
         Volver;
+    }
+
+    //metodo set nombre archivo
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     //declaracion de objeto enumerado modo
@@ -271,13 +279,13 @@ public class MainActivity extends ActionBarActivity {
 
             switch (position) {
                 case 0:
-                    editarPortada(auditoria.getNombreArchivo(), false);
+                    editarPortada(nombre, false);
                     Toast.makeText(getApplicationContext(), "Ir a Portada", Toast.LENGTH_SHORT).show();
                     modo = Modo.Portada;
                     break;
                 case 1:
                     //carga de la auditoria creada
-                    editarLV(auditoria.getNombreArchivo(), false);
+                    editarLV(nombre, false);
                     Toast.makeText(getApplicationContext(), "Ir a Lista de Verificacion", Toast.LENGTH_SHORT).show();
                     modo = Modo.ListadoLV;
 
@@ -286,6 +294,7 @@ public class MainActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Ir a no Conformidades", Toast.LENGTH_SHORT).show();
                     modo = Modo.NoConformidades;
                     editarNoConformidades();
+
                     break;
                 case 3:
                     Toast.makeText(getApplicationContext(), "Ir a Firma de Auditoria", Toast.LENGTH_SHORT).show();
@@ -455,6 +464,7 @@ public class MainActivity extends ActionBarActivity {
         //lo asignamos con el set
         //fragmentportada.setArguments(args);
         //mediante el fragmentManager reemplazamos el content_frame por el fragment creado con los datos
+
         NoConformidadFragment fragment = new NoConformidadFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -464,6 +474,13 @@ public class MainActivity extends ActionBarActivity {
         setTitle(R.string.tit_navegacion_noconformidades);
         //y cerramos drawerList
         drawerLayout.closeDrawer(drawerList);
+
+        //giramos la vista
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        //recargamos
+        cargarMenuDocumento();
+
     }
 
 

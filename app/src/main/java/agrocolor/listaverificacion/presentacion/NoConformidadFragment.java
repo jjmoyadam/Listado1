@@ -111,10 +111,15 @@ public class NoConformidadFragment extends Fragment {
         for (int i = 1; i < tabla.getChildCount(); i++) {
             //nos colocamos en la fila
             fila= (TableRow) tabla.getChildAt(i);
-
+            //checkbox
+            cbseleccion = (CheckBox) fila.getChildAt(4);
             //comprobamos si el checkbox esta seleccionado
-            if (cbseleccion.isChecked())
-                seleccion++;
+            if (cbseleccion.isChecked()){
+
+                tabla.removeView(fila);
+
+            }
+
 
         }
         Toast.makeText(getContext(), "total seleccionados " + seleccion + " de registros " + datos, Toast.LENGTH_SHORT).show();
@@ -128,6 +133,7 @@ public class NoConformidadFragment extends Fragment {
 
         //referencia a la tabla
         tabla = (TableLayout) rootView.findViewById(R.id.tbnoconformidades);
+
 
         //que ocupen todo
         tabla.setColumnStretchable(0, true);

@@ -3,6 +3,8 @@ package agrocolor.listaverificacion.presentacion;
 import java.io.IOException;
 
 import agrocolor.listaverificacion.fachadas.FachadaExcel;
+import agrocolor.listaverificacion.modelos.Auditoria;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,6 +31,7 @@ public class ListadoArchivosFragment extends Fragment {
 
     private ListView listView;
 	private ArchivosAdapter archivosAdapter;
+	private Auditoria auditoria;
 	private MainActivity contexto;
 	
 
@@ -138,7 +141,8 @@ public class ListadoArchivosFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View v, int arg2,
 				long arg3) {
-
+			//pasamos al main el nombre del archivo
+			contexto.setNombre(((TextView)v.findViewById(R.id.tv_nombre_archivo)).getText().toString());
 			//editar lista de verificaciones
 			//contexto.editarLV(((TextView)v.findViewById(R.id.tv_nombre_archivo)).getText().toString(), false);
 			contexto.editarPortada(((TextView)v.findViewById(R.id.tv_nombre_archivo)).getText().toString(), false);

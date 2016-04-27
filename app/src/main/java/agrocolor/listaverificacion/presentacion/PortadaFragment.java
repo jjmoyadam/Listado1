@@ -124,6 +124,7 @@ public class PortadaFragment extends Fragment {
     }
 
     private void guardarDatosPortada(Auditoria auditoria){
+
         //reseteo de datos
         String fecha=edfecha.getText().toString();
         String visita= edvisita.getText().toString();

@@ -74,8 +74,7 @@ public class FachadaExcel {
         //grupo control puesto a null
         GrupoPuntoControl ultimoGrupo = null;
         PuntoControl pcControl = null;
-
-        //llamada al metodo
+        //llamada al constructor que crea la lista de verificaciones
         ListaVerificacion lv = new ListaVerificacion(archivo);
         //si el libro existe
         if (inputWorkbook.exists())
@@ -199,8 +198,7 @@ public class FachadaExcel {
 			}
 
 
-		}
-	*/
+		}*/
 	}
 
 	//pasa el valor de la celda a String
