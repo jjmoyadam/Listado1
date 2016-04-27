@@ -109,14 +109,11 @@ public class NoConformidadFragment extends Fragment {
         int datos = (tabla.getChildCount()) - 1;
         //recorremos las filas
         for (int i = 1; i < tabla.getChildCount(); i++) {
-
-            //comprobamos si el cb esta seleccionado
-            cbseleccion = (CheckBox) fila.getChildAt(4);
-            //checkbox
-            boolean dato=cbseleccion.isChecked();
+            //nos colocamos en la fila
+            fila= (TableRow) tabla.getChildAt(i);
 
             //comprobamos si el checkbox esta seleccionado
-            if (dato==true)
+            if (cbseleccion.isChecked())
                 seleccion++;
 
         }

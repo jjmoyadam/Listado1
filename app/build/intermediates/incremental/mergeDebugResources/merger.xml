@@ -1485,7 +1485,6 @@
         <item>IR</item>
         <item>IF</item>
     </string-array><string name="drawer_close">Cerrar navigation drawer</string><string name="guardar_firma">Guardar Firma</string><string name="msg_error_nombre_archivo_no_valido">El nombre del archivo contiene caracteres no permitidos</string><string name="hint_nuevo_archivo">Nombre del archivo</string><string name="headlines">Encabezados de</string><string name="msg_error_cabecera_no_valida">Nº de operador y/o Nº de auditoría no son válidos</string><string name="nueva_auditoria">Nueva Auditoria</string><string name="msg_error_leer_lv"/><string name="drawer_open">Abrir navigation drawer</string><string name="tit_copiar">Copiar</string><string-array name="valores_array">
-        <item/>
         <item>V</item>
         <item>F</item>
         <item>NA</item>

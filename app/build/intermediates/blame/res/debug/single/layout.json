@@ -252,11 +252,11 @@
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\abc_action_mode_close_item_material.xml"
     },
     {
-        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_splash.xml",
-        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\layout\\activity_splash.xml"
-    },
-    {
         "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_popup_menu_item_layout.xml",
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\abc_popup_menu_item_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_splash.xml",
+        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\layout\\activity_splash.xml"
     }
 ]
