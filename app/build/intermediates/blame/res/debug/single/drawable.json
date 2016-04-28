@@ -124,12 +124,12 @@
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_ratingbar_small_material.xml"
     },
     {
-        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_edit_text_material.xml",
-        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_edit_text_material.xml"
-    },
-    {
         "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_launcher.png",
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\drawable\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_edit_text_material.xml",
+        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_edit_text_material.xml"
     },
     {
         "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_top_material.xml",

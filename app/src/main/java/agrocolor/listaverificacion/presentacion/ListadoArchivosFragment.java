@@ -113,8 +113,10 @@ public class ListadoArchivosFragment extends Fragment {
 					@Override
 					public void onClick(View v) {
 						String nombreDestino = et.getText().toString().trim();
+						//si no es valido
 						if(!FachadaExcel.nombreValido(nombreDestino))
 							Toast.makeText(contexto, getResources().getString(R.string.msg_error_nombre_archivo_no_valido), Toast.LENGTH_SHORT).show();
+						//si existe el archivo
 						else if(new FachadaExcel(contexto).existe(nombreDestino))
 							Toast.makeText(contexto, getResources().getString(R.string.msg_archivo_existe), Toast.LENGTH_SHORT).show();
 						else

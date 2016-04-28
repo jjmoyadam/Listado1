@@ -25,17 +25,14 @@ public class ArchivosAdapter extends ArrayAdapter<String>  {
 	private Context context;
 	FachadaExcel fachadaExcel;
 	
-	
 
 	public ArchivosAdapter(Context context) {
 		super(context, R.layout.listado_archivos);
 		this.context = context;
 		fachadaExcel = new FachadaExcel(getContext());  
 		actualizar();
-		
 	}
-	
-	
+
 	public void actualizar()
 	{
 		values = fachadaExcel.leerListasDeRepositorio();
