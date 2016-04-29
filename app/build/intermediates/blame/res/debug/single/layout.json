@@ -24,12 +24,12 @@
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\layout\\layout_nuevo_archivo.xml"
     },
     {
-        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_big_media_narrow.xml",
-        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\notification_template_big_media_narrow.xml"
-    },
-    {
         "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item.xml",
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.3.0\\res\\layout\\design_navigation_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_big_media_narrow.xml",
+        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\notification_template_big_media_narrow.xml"
     },
     {
         "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_snackbar_include.xml",
@@ -100,12 +100,12 @@
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\abc_activity_chooser_view_list_item.xml"
     },
     {
-        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_snackbar.xml",
-        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.3.0\\res\\layout\\design_layout_snackbar.xml"
-    },
-    {
         "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_action.xml",
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\notification_media_action.xml"
+    },
+    {
+        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_snackbar.xml",
+        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.3.0\\res\\layout\\design_layout_snackbar.xml"
     },
     {
         "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_cancel_action.xml",
@@ -244,12 +244,12 @@
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\notification_template_part_time.xml"
     },
     {
-        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_close_item_material.xml",
-        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\abc_action_mode_close_item_material.xml"
-    },
-    {
         "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_menu.xml",
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.3.0\\res\\layout\\design_navigation_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_close_item_material.xml",
+        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\abc_action_mode_close_item_material.xml"
     },
     {
         "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_splash.xml",

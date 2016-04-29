@@ -71,7 +71,7 @@ public class FachadaExcel {
     //metodo para la lista de verificacion que recibe el archivo
     public ListaVerificacion leerListaConformidades(String archivo) throws IOException {
 
-        File inputWorkbook = new File(getRuta() + File.separator + archivo);
+        File inputWorkbook = new File(archivo);
         //entrada de flujo de archivo
         FileInputStream input_document = new FileInputStream(inputWorkbook);
         //creacion del libro xls

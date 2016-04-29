@@ -1,5 +1,6 @@
 package agrocolor.listaverificacion.presentacion;
 
+import java.io.File;
 import java.io.IOException;
 
 import agrocolor.listaverificacion.fachadas.FachadaExcel;
@@ -32,6 +33,7 @@ public class ListadoArchivosFragment extends Fragment {
     private ListView listView;
 	private ArchivosAdapter archivosAdapter;
 	private Auditoria auditoria;
+	private FachadaExcel fachadaExcel;
 	private MainActivity contexto;
 	
 
@@ -47,6 +49,8 @@ public class ListadoArchivosFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.listado_archivos, container, false);
         //int i = getArguments().getInt(ARG_ARTICLES_NUMBER);
         //String article = getResources().getStringArray(R.array.Tags)[i];
+		//fachada excel
+		fachadaExcel=new FachadaExcel(contexto);
         listView = (ListView) rootView.findViewById(R.id.lv_archivos);
 		archivosAdapter = new ArchivosAdapter(contexto);
         listView.setAdapter(archivosAdapter);
@@ -135,19 +139,20 @@ public class ListadoArchivosFragment extends Fragment {
 					}
 				});
 	}
-
 	/**
 	 * carga la auditoria cuando pulsamos el elemento de la lista de auditorias (lista de archivos)
 	 */
-	private OnItemClickListener onItemClick = new OnItemClickListener() {           
+	private OnItemClickListener onItemClick = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View v, int arg2,
 				long arg3) {
+			//nombre del archivo
+			String nombre=((TextView)v.findViewById(R.id.tv_nombre_archivo)).getText().toString();
 			//pasamos al main el nombre del archivo
-			contexto.setNombre(((TextView)v.findViewById(R.id.tv_nombre_archivo)).getText().toString());
+			contexto.setNombre(rutaarchivo(nombre));
 			//editar lista de verificaciones
 			//contexto.editarLV(((TextView)v.findViewById(R.id.tv_nombre_archivo)).getText().toString(), false);
-			contexto.editarPortada(((TextView)v.findViewById(R.id.tv_nombre_archivo)).getText().toString(), false);
+			contexto.editarPortada(rutaarchivo(nombre), false);
 			//tostada de on click
 			Toast.makeText(contexto,"Carga de Portada",Toast.LENGTH_SHORT).show();
 			//carga del menu lateral
@@ -166,7 +171,17 @@ public class ListadoArchivosFragment extends Fragment {
 			return true;
 		}
 	};
-	
+	private  String rutaarchivo (String nombre){
+
+		//nombre de directorio
+		String dir=nombre.substring(0,nombre.lastIndexOf("."));
+		//creamos la ruta
+		String ruta=fachadaExcel.getRuta().toString()+ File.separator+dir+File.separator+nombre;
+
+		return ruta;
+	}
+
+
     
 
     
