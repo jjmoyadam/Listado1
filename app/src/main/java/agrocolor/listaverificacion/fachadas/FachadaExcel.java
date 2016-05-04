@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -173,39 +174,25 @@ public class FachadaExcel {
 
         Toast.makeText(contexto, "carga de datos portada", Toast.LENGTH_SHORT).show();
 
-		/*//recojo el archivo
-        File inputWorkbook = new File(getRuta()+File.separator+archivo);
+		//recojo el archivo
+        File inputWorkbook = new File(archivo);
 		//entrada de flujo de archivo
 		FileInputStream input_document = new FileInputStream(inputWorkbook);
 		//creacion del libro xls
 		HSSFWorkbook book = new HSSFWorkbook(input_document);
-		//posicionamieto en la hoja de datos  y configuracion en las celdas
-		HSSFSheet sNoConformidades = book.getSheet("Portada");
+		//posicionapmieto en la hoja de datos  y configuracion en las celdas
+		HSSFSheet sPortada = book.getSheet("Portada");
+        //llamada al constructor que crea la lista de verificaciones
+       // Auditoria auditoria = new Auditoria(archivo);
 
-		//creacion de objeto no conformidad
-		ArrayList<NoConformidad> noConformidades;
-		NoConformidad nc=null;
-		//inicializamos el array
-		noConformidades= new ArrayList<NoConformidad>();
+        //si el libro existe
+        if (inputWorkbook.exists()) {
 
-		if (inputWorkbook.exists())
-		{
-			//recorremos todas las filas
-			for(int i=1; i<=sNoConformidades.getLastRowNum(); i++)
-			{
-				//tomamos los datos
-				Row rowNoConformidades  = sNoConformidades.getRow(i);
+            Cell celda=sPortada.getRow(1).getCell(0);
+            Double dato=celda.getNumericCellValue();
 
-				//y guardamos los valores en un objeto no conformidad
-				nc=CrearNoconformidades(rowNoConformidades);
+        }
 
-				//agregamos al arraylist
-				noConformidades.add(nc);
-
-			}
-
-
-		}*/
     }
 
     //pasa el valor de la celda a String
@@ -278,6 +265,34 @@ public class FachadaExcel {
                 escribirNoConformidades(nc, sheet.getRow(nc.getFila()));
             }
             auditoria.getWorkbook().write(fos);
+        }
+
+
+    }
+    //escritura en fichero excel la portada
+    public void escribirPortada(Auditoria auditoria) throws NotFoundException, IOException {
+        //toma el nombre del archivo
+        String nombreArchivo = nombreExcel(auditoria.getNombreArchivo());
+        //creacion del archivo
+        File inputWorkbook = new File(getRuta() + File.separator + nombreExcel(nombreArchivo));
+        //salida del flujo de datos hacua el libro
+        FileOutputStream fos = new FileOutputStream(inputWorkbook);
+        //si el archivo se ha creado
+        if (inputWorkbook.exists()) {
+            //lectura de los datos de la hoja
+            HSSFSheet sheet = auditoria.getWorkbook().getSheet("Portada");
+            /*//declaracion de obj noconformidad
+            NoConformidad nc = null;
+
+            //vamos tomando los valores
+            for (int i = 1; i < auditoria.getNoconformidades().size(); i++) {
+                //recuperamos cada uno de los valores de
+                nc = auditoria.getNoConformidad(i);
+
+                //llamamos al metodo escribirListaVerificacion
+                escribirNoConformidades(nc, sheet.getRow(nc.getFila()));
+            }
+            auditoria.getWorkbook().write(fos);*/
         }
 
 

@@ -20,10 +20,11 @@ public class Auditoria {
     private HSSFWorkbook workbook;
 
     //constructor
-    public Auditoria() {
+    public Auditoria(String nombreArchivo) {
+
+        this.nombreArchivo = nombreArchivo;
 
     }
-
     //metodos get y set
     public Date getFecha() {
         return fecha;

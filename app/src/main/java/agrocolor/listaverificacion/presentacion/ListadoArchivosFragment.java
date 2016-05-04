@@ -159,7 +159,7 @@ public class ListadoArchivosFragment extends Fragment {
 			contexto.cargarMenuDocumento();
 
 		}
-    };
+	    };
     
     private OnItemLongClickListener onItemLongClickListener_listView = new OnItemLongClickListener() {
 

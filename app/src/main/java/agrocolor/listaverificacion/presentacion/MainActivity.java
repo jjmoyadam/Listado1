@@ -80,7 +80,7 @@ public class MainActivity extends ActionBarActivity {
         //tomamos el valor del titulo de la actividad
         itemTitle = activityTitle = getTitle();
         //auditoria
-        auditoria = new Auditoria();
+        auditoria = new Auditoria(nombre);
         //tagTitles
         tagTitles = getResources().getStringArray(R.array.Tags);
         //referencias a las ListView y DrawerLayout

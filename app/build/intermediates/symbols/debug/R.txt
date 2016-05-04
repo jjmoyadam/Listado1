@@ -879,6 +879,7 @@ int menu menu_pc 0x7f0f0003
 int menu menu_portada 0x7f0f0004
 int mipmap ic_launcher 0x7f030000
 int raw lv_eco 0x7f060000
+int raw lv_eco_org 0x7f060001
 int string abc_action_bar_home_description 0x7f070000
 int string abc_action_bar_home_description_format 0x7f070001
 int string abc_action_bar_home_subtitle_description_format 0x7f070002

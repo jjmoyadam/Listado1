@@ -1,0 +1,2 @@
+CHANGED,C:\Users\Ainhoa\AndroidStudioProjects\Listado1\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\agrocolor\listaverificacion\fachadas\FachadaExcel$override.class
+CHANGED,C:\Users\Ainhoa\AndroidStudioProjects\Listado1\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\android\tools\fd\runtime\AppPatchesLoaderImpl.class
