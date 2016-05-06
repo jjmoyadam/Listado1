@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,8 +65,8 @@ public class FachadaExcel {
     //creacion del archivo y directorio
     private File creardirauditoria(String nombre) throws IOException {
         File dir = new File(getRuta() + File.separator + nombre);
-        dir.mkdir();
 
+        dir.mkdir();
         return dir;
     }
 
@@ -170,7 +171,7 @@ public class FachadaExcel {
      * @return
      * @throws IOException
      */
-    public void leerPortada(String archivo) throws IOException {
+    public Auditoria leerPortada(String archivo) throws IOException {
 
         Toast.makeText(contexto, "carga de datos portada", Toast.LENGTH_SHORT).show();
 
@@ -183,16 +184,23 @@ public class FachadaExcel {
 		//posicionapmieto en la hoja de datos  y configuracion en las celdas
 		HSSFSheet sPortada = book.getSheet("Portada");
         //llamada al constructor que crea la lista de verificaciones
-       // Auditoria auditoria = new Auditoria(archivo);
+       Auditoria auditoria = new Auditoria(archivo);
 
         //si el libro existe
         if (inputWorkbook.exists()) {
-
-            Cell celda=sPortada.getRow(1).getCell(0);
-            Double dato=celda.getNumericCellValue();
+            //celdas de portada
+            Cell celdafecha=sPortada.getRow(0).getCell(1);
+            Cell celdavisita=sPortada.getRow(1).getCell(1);
+            Cell celdaoperador=sPortada.getRow(2).getCell(1);
+            Cell celdanumvisita=sPortada.getRow(3).getCell(1);
+            //los mostramos en los editext
+            auditoria.setFecha((int) celdafecha.getNumericCellValue());
+            auditoria.setCodvista((int)celdavisita.getNumericCellValue());
+            auditoria.setCodopeador((int)celdaoperador.getNumericCellValue());
+            auditoria.setNumvisita((int)celdanumvisita.getNumericCellValue());
 
         }
-
+        return auditoria;
     }
 
     //pasa el valor de la celda a String

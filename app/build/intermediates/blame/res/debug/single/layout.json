@@ -176,12 +176,12 @@
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\abc_list_menu_item_icon.xml"
     },
     {
-        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\listado_puntos_control.xml",
-        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\layout\\listado_puntos_control.xml"
-    },
-    {
         "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\selector_pc_item.xml",
         "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\layout\\selector_pc_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\listado_puntos_control.xml",
+        "source": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\src\\main\\res\\layout\\listado_puntos_control.xml"
     },
     {
         "merged": "C:\\Users\\Ainhoa\\AndroidStudioProjects\\Listado1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\lv_item.xml",

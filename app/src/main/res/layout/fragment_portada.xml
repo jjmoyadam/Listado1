@@ -68,6 +68,22 @@
                 android:id="@+id/edCodigoCooperador"
                 android:layout_weight="1" />
         </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Numero de Visita"
+                android:id="@+id/tvnumvisita" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/ednumvisita"
+                android:layout_weight="1" />
+        </TableRow>
 
     </TableLayout>
 

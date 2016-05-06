@@ -27,10 +27,9 @@ public class PortadaFragment extends Fragment {
     public static final String ARG_NUEVA_AUDITORIA = "nueva_auditoria";
 
 
-    private TextView tvfecha,tvvisita,tvoperador;
-    private EditText edfecha,edvisita,edoperador;
+    private TextView tvfecha,tvvisita,tvoperador,tvnumvista;
+    private EditText edfecha,edvisita,edoperador,ednumvisita;
     private MainActivity contexto;
-    private Auditoria auditoria;
     private TableLayout tabla;
     private boolean nuevaaduditoria;
     private FachadaExcel fachadaexcel;
@@ -51,16 +50,17 @@ public class PortadaFragment extends Fragment {
         tvfecha=(TextView)rootView.findViewById(R.id.tvFecha);
         tvvisita=(TextView)rootView.findViewById(R.id.tvCodVisita);
         tvoperador=(TextView)rootView.findViewById(R.id.tvCodCooperador);
+        Auditoria auditoria;
 
 
         //fachada excel
         fachadaexcel=new FachadaExcel(contexto);
 
-        ListaVerificacion lv;
 
         edfecha=(EditText)rootView.findViewById(R.id.edFecha);
         edvisita =(EditText)rootView.findViewById(R.id.edCodigoVisita);
         edoperador=(EditText)rootView.findViewById(R.id.edCodigoCooperador);
+        ednumvisita=(EditText)rootView.findViewById(R.id.ednumvisita);
         //carga del menu lateral
         contexto.cargarMenuDocumento();
 
@@ -75,7 +75,12 @@ public class PortadaFragment extends Fragment {
 
             } else {
                 Toast.makeText(getContext(), "la auditoria existe", Toast.LENGTH_SHORT).show();
-                fachadaexcel.leerPortada(archivo);
+                auditoria=fachadaexcel.leerPortada(archivo);
+                if(auditoria != null)
+                {
+                    cargarDatosPortada(auditoria);
+                    Toast.makeText(getContext(),"Datos Cargados",Toast.LENGTH_SHORT).show();
+                }
 
             }
         } catch (IOException e) {
@@ -102,7 +107,7 @@ public class PortadaFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btn_guardarPortada:
-                guardarDatosPortada(auditoria);
+                guardarDatosPortada();
                 resetFormulario();
                 return true;
             case R.id.btn_resetPortada:
@@ -123,7 +128,7 @@ public class PortadaFragment extends Fragment {
 
     }
 
-    private void guardarDatosPortada(Auditoria auditoria){
+    private void guardarDatosPortada(){
 
         //reseteo de datos
         String fecha=edfecha.getText().toString();
@@ -134,6 +139,15 @@ public class PortadaFragment extends Fragment {
         //mensaje
         Toast.makeText(getContext(),"Datos Guardados",Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void cargarDatosPortada(Auditoria auditoria){
+
+        //datos
+        edfecha.setText(String.valueOf(auditoria.getFecha()));
+        edvisita.setText(String.valueOf(auditoria.getCodvista()));
+        edoperador.setText(String.valueOf(auditoria.getCodopeador()));
+        ednumvisita.setText(String.valueOf(auditoria.getNumvisita()));
 
     }
 

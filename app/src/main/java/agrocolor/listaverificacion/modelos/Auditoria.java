@@ -1,6 +1,7 @@
 package agrocolor.listaverificacion.modelos;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,7 +11,8 @@ import java.util.Date;
  */
 public class Auditoria {
     //variables
-    private Date fecha;
+    private int fecha;
+    private int codvista;
     private int codopeador;
     private int numvisita;
     private String nombreArchivo;
@@ -26,11 +28,21 @@ public class Auditoria {
 
     }
     //metodos get y set
-    public Date getFecha() {
+
+
+    public int getCodvista() {
+        return codvista;
+    }
+
+    public void setCodvista(int codvista) {
+        this.codvista = codvista;
+    }
+
+    public int getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(int fecha) {
         this.fecha = fecha;
     }
 
