@@ -68,7 +68,6 @@ public class NoConformidadFragment extends Fragment {
         }
 
     }
-
     /**
      * añadir fila al tablelayout
      */
@@ -141,7 +140,6 @@ public class NoConformidadFragment extends Fragment {
         tabla.setColumnStretchable(2, true);
         tabla.setColumnStretchable(3, true);
 
-        //control de orientacion
 
         // Inflate the layout for this fragment
         return rootView;

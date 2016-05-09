@@ -71,9 +71,9 @@ public class FachadaExcel {
     }
 
     //metodo para la lista de verificacion que recibe el archivo
-    public ListaVerificacion leerListaConformidades(String archivo) throws IOException {
+    public ListaVerificacion leerListaConformidades(Auditoria auditoria) throws IOException {
 
-        File inputWorkbook = new File(archivo);
+        File inputWorkbook = new File(auditoria.getNombreArchivo());
         //entrada de flujo de archivo
         FileInputStream input_document = new FileInputStream(inputWorkbook);
         //creacion del libro xls
@@ -85,7 +85,7 @@ public class FachadaExcel {
         GrupoPuntoControl ultimoGrupo = null;
         PuntoControl pcControl = null;
         //llamada al constructor que crea la lista de verificaciones
-        ListaVerificacion lv = new ListaVerificacion(archivo);
+        ListaVerificacion lv = new ListaVerificacion(auditoria.getNombreArchivo());
         //si el libro existe
         if (inputWorkbook.exists()) {
             //recorremos todas las filas
@@ -167,24 +167,23 @@ public class FachadaExcel {
     /**
      * metodo que lee los datos de la portada
      *
-     * @param archivo
+     * @param auditoria
      * @return
      * @throws IOException
      */
-    public Auditoria leerPortada(String archivo) throws IOException {
+    public Auditoria leerPortada(Auditoria auditoria) throws IOException {
 
         Toast.makeText(contexto, "carga de datos portada", Toast.LENGTH_SHORT).show();
-
 		//recojo el archivo
-        File inputWorkbook = new File(archivo);
+        File inputWorkbook = new File(auditoria.getNombreArchivo());
 		//entrada de flujo de archivo
 		FileInputStream input_document = new FileInputStream(inputWorkbook);
 		//creacion del libro xls
 		HSSFWorkbook book = new HSSFWorkbook(input_document);
 		//posicionapmieto en la hoja de datos  y configuracion en las celdas
 		HSSFSheet sPortada = book.getSheet("Portada");
-        //llamada al constructor que crea la lista de verificaciones
-       Auditoria auditoria = new Auditoria(archivo);
+        //llamada al constructor que crea la auditoria
+       // auditoria = new Auditoria(archivo);
 
         //si el libro existe
         if (inputWorkbook.exists()) {
@@ -194,11 +193,10 @@ public class FachadaExcel {
             Cell celdaoperador=sPortada.getRow(2).getCell(1);
             Cell celdanumvisita=sPortada.getRow(3).getCell(1);
             //los mostramos en los editext
-            auditoria.setFecha((int) celdafecha.getNumericCellValue());
-            auditoria.setCodvista((int)celdavisita.getNumericCellValue());
-            auditoria.setCodopeador((int)celdaoperador.getNumericCellValue());
-            auditoria.setNumvisita((int)celdanumvisita.getNumericCellValue());
-
+            //auditoria.setFecha((int) celdafecha.getNumericCellValue());
+            //auditoria.setCodvista((int)celdavisita.getNumericCellValue());
+            //auditoria.setCodopeador((int)celdaoperador.getNumericCellValue());
+            //auditoria.setNumvisita((int)celdanumvisita.getNumericCellValue());
         }
         return auditoria;
     }
@@ -242,7 +240,7 @@ public class FachadaExcel {
                 pc = lv.getPuntosControl().get(i);
                 escribirPC(pc, sheet.getRow(pc.getFila()));
             }
-            escribirCabecera(lv);
+            //escribirCabecera(lv);
             lv.getWorkbook().write(fos);
         }
 
@@ -278,7 +276,8 @@ public class FachadaExcel {
 
     }
     //escritura en fichero excel la portada
-    public void escribirPortada(Auditoria auditoria) throws NotFoundException, IOException {
+    public void escribirPortada(String nombre) throws NotFoundException, IOException {
+        /*
         //toma el nombre del archivo
         String nombreArchivo = nombreExcel(auditoria.getNombreArchivo());
         //creacion del archivo
@@ -288,8 +287,8 @@ public class FachadaExcel {
         //si el archivo se ha creado
         if (inputWorkbook.exists()) {
             //lectura de los datos de la hoja
-            HSSFSheet sheet = auditoria.getWorkbook().getSheet("Portada");
-            /*//declaracion de obj noconformidad
+            //HSSFSheet sheet = auditoria.getWorkbook().getSheet("Portada");
+            //declaracion de obj noconformidad
             NoConformidad nc = null;
 
             //vamos tomando los valores
@@ -300,11 +299,13 @@ public class FachadaExcel {
                 //llamamos al metodo escribirListaVerificacion
                 escribirNoConformidades(nc, sheet.getRow(nc.getFila()));
             }
-            auditoria.getWorkbook().write(fos);*/
+            auditoria.getWorkbook().write(fos);
         }
+        */
 
 
     }
+
 
     /**
      * metodo para creacion del grupo de control
@@ -359,6 +360,7 @@ public class FachadaExcel {
      *
      * @param lv recibe la listview
      */
+    /*
     private void escribirCabecera(ListaVerificacion lv) {
         //tomamosla hoja 0
         Sheet sheet = lv.getWorkbook().getSheetAt(0);
@@ -368,7 +370,7 @@ public class FachadaExcel {
         header.setCenter(escribirCabecera(header.getCenter(), lv.numOperador, lv.numAuditoria));
 
     }
-
+    */
     /**
      * metodo que escribe en la cabecera
      *
@@ -481,13 +483,15 @@ public class FachadaExcel {
     /**
      * metodo para la creacion de una nueva  auditoria, cargando los datos desde la plantilla excel lv_eco
      *
-     * @param nombreArchivo archivo a guardar
+     * @param  auditoria
      * @return metodo leerListaConformidades de listade verificacion
      * @throws NotFoundException
      * @throws IOException
      */
 
-    public void nuevaauditoria(String nombreArchivo) throws NotFoundException, IOException {
+    public Auditoria nuevaauditoria(Auditoria auditoria) throws NotFoundException, IOException {
+
+        String nombreArchivo=auditoria.getNombreArchivo();
 
         if (!existe(nombreArchivo)) {
             //crea la carpeta para la auditoria
@@ -510,9 +514,9 @@ public class FachadaExcel {
             is.close();
             Toast.makeText(contexto, "archivo de la auditoria creada", Toast.LENGTH_LONG).show();
             //llama al metodo leerListaConformidades para cargar los datos de la nueva lista en la interfaz
-            leerPortada(nombreArchivo);
+            return leerPortada(auditoria);
         }
-        //return null;
+        return null;
     }
 
 
@@ -520,13 +524,15 @@ public class FachadaExcel {
      * MODIFICAR
      * metodo para la creacion de un nuevo formulario, cargando los datos desde la plantilla excel lv_eco
      *
-     * @param nombreArchivo archivo a guardar
+     * @param auditoria archivo a guardar
      * @return metodo leerListaConformidades de listade verificacion
      * @throws NotFoundException
      * @throws IOException
      */
-    public ListaVerificacion nuevaLista(String nombreArchivo) throws NotFoundException, IOException {
-        nombreArchivo = nombreExcel(nombreArchivo);
+    public ListaVerificacion nuevaLista(Auditoria auditoria) throws NotFoundException, IOException {
+
+        String nombreArchivo = nombreExcel(auditoria.getNombreArchivo());
+
         if (!existe(nombreArchivo)) {
             //creamos el directorio
             File dir = creardirauditoria(nombreArchivo);
@@ -547,7 +553,7 @@ public class FachadaExcel {
             is.close();
             Toast.makeText(contexto, "archivo creado", Toast.LENGTH_LONG).show();
             //llama al metodo leerListaConformidades para cargar los datos de la nueva lista en la interfaz
-            return leerListaConformidades(nombreArchivo);
+            return leerListaConformidades(auditoria);
         }
         return null;
     }

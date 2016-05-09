@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 import agrocolor.listaverificacion.fachadas.FachadaExcel;
+import agrocolor.listaverificacion.modelos.Auditoria;
 import agrocolor.listaverificacion.modelos.ListaVerificacion;
 import agrocolor.listaverificacion.modelos.PuntoControl;
 import android.app.AlertDialog;
@@ -41,6 +42,7 @@ public class PuntoControlFragment extends Fragment {
 	private TextView tvDescripcionPC, tvDescripcionGrupo, tvClasificacion, tvCompletado;
 	private EditText etObservacion;
 	private boolean nuevaLista;
+	private Auditoria auditoria;
 	private MenuItem miGuardar;
 	private FachadaExcel fachadaExcel;
 	private Spinner spValor;
@@ -99,7 +101,7 @@ public class PuntoControlFragment extends Fragment {
 			//Mensaje.mostrar(contexto, getResources().getString(R.string.tit_error), e.getStackTrace().toString(), getResources().getString(R.string.aceptar), null);		
 		}
 	}
-	
+
 	private boolean validar()
 	{
 		return pcIter.getListaVerificacion().numAuditoria != 0 && pcIter.getListaVerificacion().numOperador != 0;
@@ -113,6 +115,8 @@ public class PuntoControlFragment extends Fragment {
         String archivo = getArguments().getString(ARG_NOMBRE_AUDITORIA);
         nuevaLista = getArguments().getBoolean(ARG_NUEVA_AUDITORIA);
         ListaVerificacion lv;
+		auditoria=new Auditoria(archivo);
+
         
         contexto = getActivity();
     	fachadaExcel = new FachadaExcel(contexto);
@@ -138,9 +142,9 @@ public class PuntoControlFragment extends Fragment {
         try {
 			//si nuevalista es true
         	if(nuevaLista) {
-				lv=fachadaExcel.nuevaLista(archivo);
+				lv=fachadaExcel.nuevaLista(auditoria);
 			}else
-				lv = fachadaExcel.leerListaConformidades(archivo);
+				lv = fachadaExcel.leerListaConformidades(auditoria);
         	if(lv != null)
         	{
         		pcIter = new PCIterator(lv);
@@ -248,7 +252,7 @@ public class PuntoControlFragment extends Fragment {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(contexto, android.R.layout.simple_list_item_1, android.R.id.text1, pcIter.actual().getListaPosiblesObservaciones());		
         lv.setAdapter(adapter);	
 	}
-    
+
     private void mostrarCabecera()
     {
 		AlertDialog.Builder ad = new AlertDialog.Builder(contexto);
@@ -296,7 +300,7 @@ public class PuntoControlFragment extends Fragment {
 				});
     	
     }
-    
+
     private void mostrarSelectorPC() {
 		AlertDialog.Builder ad = new AlertDialog.Builder(contexto);
 		LayoutInflater inflater = (LayoutInflater)contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

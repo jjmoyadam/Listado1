@@ -28,8 +28,6 @@ public class Auditoria {
 
     }
     //metodos get y set
-
-
     public int getCodvista() {
         return codvista;
     }

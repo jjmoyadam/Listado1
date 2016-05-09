@@ -50,11 +50,12 @@ public class PortadaFragment extends Fragment {
         tvfecha=(TextView)rootView.findViewById(R.id.tvFecha);
         tvvisita=(TextView)rootView.findViewById(R.id.tvCodVisita);
         tvoperador=(TextView)rootView.findViewById(R.id.tvCodCooperador);
-        Auditoria auditoria;
 
 
         //fachada excel
         fachadaexcel=new FachadaExcel(contexto);
+        //creacion de la auditoria
+        Auditoria auditoria = new Auditoria(archivo);
 
 
         edfecha=(EditText)rootView.findViewById(R.id.edFecha);
@@ -71,11 +72,12 @@ public class PortadaFragment extends Fragment {
             if (nuevaaduditoria) {
 
                 Toast.makeText(getContext(),"Nueva auditoria",Toast.LENGTH_SHORT).show();
-                fachadaexcel.nuevaauditoria(archivo);
+                auditoria=fachadaexcel.nuevaauditoria(auditoria);
 
             } else {
                 Toast.makeText(getContext(), "la auditoria existe", Toast.LENGTH_SHORT).show();
-                auditoria=fachadaexcel.leerPortada(archivo);
+                auditoria=fachadaexcel.leerPortada(auditoria);
+
                 if(auditoria != null)
                 {
                     cargarDatosPortada(auditoria);
