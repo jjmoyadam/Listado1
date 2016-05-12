@@ -38,6 +38,7 @@ public class FachadaExcel {
     //extension del archivo
     public static final String EXTENSION_EXCEL = ".xls";
 
+
     //metodo para obtener la ruta
     public String getRuta() {
         return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + contexto.getResources().getString(R.string.nombre_carpeta);
@@ -69,6 +70,8 @@ public class FachadaExcel {
         dir.mkdir();
         return dir;
     }
+
+
 
     //metodo para la lista de verificacion que recibe el archivo
     public ListaVerificacion leerListaConformidades(Auditoria auditoria) throws IOException {
@@ -193,10 +196,14 @@ public class FachadaExcel {
             Cell celdaoperador=sPortada.getRow(2).getCell(1);
             Cell celdanumvisita=sPortada.getRow(3).getCell(1);
             //los mostramos en los editext
-            //auditoria.setFecha((int) celdafecha.getNumericCellValue());
-            //auditoria.setCodvista((int)celdavisita.getNumericCellValue());
-            //auditoria.setCodopeador((int)celdaoperador.getNumericCellValue());
-            //auditoria.setNumvisita((int)celdanumvisita.getNumericCellValue());
+            if(celdafecha!=null)
+            auditoria.setFecha((int) celdafecha.getNumericCellValue());
+            if(celdavisita!=null)
+            auditoria.setCodvista((int)celdavisita.getNumericCellValue());
+            if(celdaoperador!=null)
+            auditoria.setCodopeador((int)celdaoperador.getNumericCellValue());
+            if(celdanumvisita!=null)
+            auditoria.setNumvisita((int)celdanumvisita.getNumericCellValue());
         }
         return auditoria;
     }
@@ -276,35 +283,36 @@ public class FachadaExcel {
 
     }
     //escritura en fichero excel la portada
-    public void escribirPortada(String nombre) throws NotFoundException, IOException {
-        /*
+    public void escribirPortada(Auditoria auditoria,String fecha,String visita,String operador) throws NotFoundException, IOException {
+
         //toma el nombre del archivo
         String nombreArchivo = nombreExcel(auditoria.getNombreArchivo());
         //creacion del archivo
-        File inputWorkbook = new File(getRuta() + File.separator + nombreExcel(nombreArchivo));
-        //salida del flujo de datos hacua el libro
-        FileOutputStream fos = new FileOutputStream(inputWorkbook);
+        File inputWorkbook = new File(nombreArchivo);
+        //salida del flujo de datos hacia el libro, true para evitar que machaque datos
+        FileOutputStream fos = new FileOutputStream(inputWorkbook,true);
         //si el archivo se ha creado
         if (inputWorkbook.exists()) {
-            //lectura de los datos de la hoja
-            //HSSFSheet sheet = auditoria.getWorkbook().getSheet("Portada");
-            //declaracion de obj noconformidad
-            NoConformidad nc = null;
 
-            //vamos tomando los valores
-            for (int i = 1; i < auditoria.getNoconformidades().size(); i++) {
-                //recuperamos cada uno de los valores de
-                nc = auditoria.getNoConformidad(i);
+            HSSFSheet sPortada = auditoria.getWorkbook().getSheet("Portada");
+            //tomamos los datos
+            Cell celdafecha=sPortada.getRow(0).getCell(1);
+            Cell celdavisita=sPortada.getRow(1).getCell(1);
+            Cell celdaoperador=sPortada.getRow(2).getCell(1);
+            Cell celdanumvisita=sPortada.getRow(3).getCell(1);
 
-                //llamamos al metodo escribirListaVerificacion
-                escribirNoConformidades(nc, sheet.getRow(nc.getFila()));
-            }
+            //y escribimos
+            celdafecha.setCellValue(fecha);
+            celdavisita.setCellValue(visita);
+            celdaoperador.setCellValue(operador);
+            celdanumvisita.setCellValue(visita);
+
+            //y escribimos
             auditoria.getWorkbook().write(fos);
+            }
+
+
         }
-        */
-
-
-    }
 
 
     /**
@@ -353,7 +361,6 @@ public class FachadaExcel {
         r.getCell(contexto.getResources().getInteger(R.integer.COL_VISITA_PORTADA)).setCellValue(visita);
         r.getCell(contexto.getResources().getInteger(R.integer.COL_OPERADOR_PORTADA)).setCellValue(operador);
     }
-
 
     /**
      * Metodo para la escritura de la cabecera
@@ -488,7 +495,6 @@ public class FachadaExcel {
      * @throws NotFoundException
      * @throws IOException
      */
-
     public Auditoria nuevaauditoria(Auditoria auditoria) throws NotFoundException, IOException {
 
         String nombreArchivo=auditoria.getNombreArchivo();
@@ -606,5 +612,6 @@ public class FachadaExcel {
         in.close();
         out.close();
     }
+
 
 }

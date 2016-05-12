@@ -15,6 +15,7 @@ public class Auditoria {
     private int codvista;
     private int codopeador;
     private int numvisita;
+    //ruta completa del archivo
     private String nombreArchivo;
     //objeto de Arraylist no conformidad que guarda los datos de las no conformidades
     private ArrayList <NoConformidad> noconformidades;

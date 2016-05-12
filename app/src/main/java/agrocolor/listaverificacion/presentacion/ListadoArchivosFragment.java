@@ -148,11 +148,10 @@ public class ListadoArchivosFragment extends Fragment {
 				long arg3) {
 			//nombre del archivo
 			String nombre=((TextView)v.findViewById(R.id.tv_nombre_archivo)).getText().toString();
-			//pasamos al main el nombre del archivo
-			contexto.setNombre(rutaarchivo(nombre));
 			//editar lista de verificaciones
+			auditoria=new Auditoria(rutaarchivo(nombre));
 			//contexto.editarLV(((TextView)v.findViewById(R.id.tv_nombre_archivo)).getText().toString(), false);
-			contexto.editarPortada(rutaarchivo(nombre), false);
+			contexto.editarPortada(auditoria, false);
 			//tostada de on click
 			Toast.makeText(contexto,"Carga de Portada",Toast.LENGTH_SHORT).show();
 			//carga del menu lateral
@@ -172,7 +171,6 @@ public class ListadoArchivosFragment extends Fragment {
 		}
 	};
 	private  String rutaarchivo (String nombre){
-
 		//nombre de directorio
 		String dir=nombre.substring(0,nombre.lastIndexOf("."));
 		//creamos la ruta

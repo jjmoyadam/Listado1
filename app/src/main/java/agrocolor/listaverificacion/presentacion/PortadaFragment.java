@@ -33,6 +33,7 @@ public class PortadaFragment extends Fragment {
     private TableLayout tabla;
     private boolean nuevaaduditoria;
     private FachadaExcel fachadaexcel;
+    private Auditoria auditoria;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,8 +56,7 @@ public class PortadaFragment extends Fragment {
         //fachada excel
         fachadaexcel=new FachadaExcel(contexto);
         //creacion de la auditoria
-        Auditoria auditoria = new Auditoria(archivo);
-
+        auditoria = new Auditoria(archivo);
 
         edfecha=(EditText)rootView.findViewById(R.id.edFecha);
         edvisita =(EditText)rootView.findViewById(R.id.edCodigoVisita);
@@ -77,13 +77,13 @@ public class PortadaFragment extends Fragment {
             } else {
                 Toast.makeText(getContext(), "la auditoria existe", Toast.LENGTH_SHORT).show();
                 auditoria=fachadaexcel.leerPortada(auditoria);
-
+                /*
                 if(auditoria != null)
                 {
                     cargarDatosPortada(auditoria);
                     Toast.makeText(getContext(),"Datos Cargados",Toast.LENGTH_SHORT).show();
                 }
-
+                */
             }
         } catch (IOException e) {
             //Mensaje.mostrar(contexto, getResources().getString(R.string.tit_error), e.getStackTrace().toString(), getResources().getString(R.string.aceptar), null);
@@ -110,7 +110,6 @@ public class PortadaFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.btn_guardarPortada:
                 guardarDatosPortada();
-                resetFormulario();
                 return true;
             case R.id.btn_resetPortada:
                 resetFormulario();
@@ -131,13 +130,16 @@ public class PortadaFragment extends Fragment {
     }
 
     private void guardarDatosPortada(){
-
         //reseteo de datos
         String fecha=edfecha.getText().toString();
         String visita= edvisita.getText().toString();
         String operador=edoperador.getText().toString();
         //lo guardamos con el metodo de la fachada
-        //fachadaexcel.escribirPortada(auditoria,fecha,visita,operador);
+        try {
+            fachadaexcel.escribirPortada(auditoria,fecha,visita,operador);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //mensaje
         Toast.makeText(getContext(),"Datos Guardados",Toast.LENGTH_SHORT).show();
 

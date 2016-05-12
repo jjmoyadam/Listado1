@@ -50,10 +50,6 @@ public class MainActivity extends ActionBarActivity {
         Volver;
     }
 
-    //metodo set nombre archivo
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
     //declaracion de objeto enumerado modo
     private Modo modo;
@@ -79,8 +75,6 @@ public class MainActivity extends ActionBarActivity {
         fachadaExcel.crearDirectorio();
         //tomamos el valor del titulo de la actividad
         itemTitle = activityTitle = getTitle();
-        //auditoria
-        auditoria = new Auditoria(nombre);
         //tagTitles
         tagTitles = getResources().getStringArray(R.array.Tags);
         //referencias a las ListView y DrawerLayout
@@ -194,7 +188,6 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    ;
 
     public void cargarMenuAuditorias() {
         //carga de los iconos
@@ -279,13 +272,13 @@ public class MainActivity extends ActionBarActivity {
 
             switch (position) {
                 case 0:
-                    editarPortada(nombre, false);
+                    editarPortada(auditoria, false);
                     Toast.makeText(getApplicationContext(), "Ir a Portada", Toast.LENGTH_SHORT).show();
                     modo = Modo.Portada;
                     break;
                 case 1:
                     //carga de la auditoria creada
-                    editarLV(nombre, false);
+                    editarLV(auditoria);
                     Toast.makeText(getApplicationContext(), "Ir a Lista de Verificacion", Toast.LENGTH_SHORT).show();
                     modo = Modo.ListadoLV;
 
@@ -325,7 +318,6 @@ public class MainActivity extends ActionBarActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
         //cambiamos titulo por listas de verificacion
         setTitle(R.string.tit_portadaauditoria);
         //y cerramos drawerList
@@ -373,20 +365,16 @@ public class MainActivity extends ActionBarActivity {
         drawerLayout.closeDrawer(drawerList);
     }
 
-    /**
-     * Metodo que carga el fragment con los datos de una lista de verificaciones de un archivo
-     *
-     * @param nombreArchivo
-     * @param nuevo le pasa el parametro de si es una archivo nuevo o no
-     */
-    public void editarLV(String nombreArchivo, boolean nuevo) {
+
+    public void editarLV(Auditoria auditoria) {
+
+        String nombreArchivo=auditoria.getNombreArchivo();
 
         PuntoControlFragment fragment = new PuntoControlFragment();
-
         //pasamos los argumentos al fragment el nombre del archivo y si es nueva o no
         Bundle args = new Bundle();
         args.putString(PuntoControlFragment.ARG_NOMBRE_AUDITORIA, nombreArchivo);
-        args.putBoolean(PuntoControlFragment.ARG_NUEVA_AUDITORIA, nuevo);
+        //args.putBoolean(PuntoControlFragment.ARG_NUEVA_AUDITORIA, nuevo);
         //lo asignamos con el set
         fragment.setArguments(args);
         //mediante el fragmentManager reemplazamos el content_frame por el fragment creado con los datos
@@ -400,13 +388,13 @@ public class MainActivity extends ActionBarActivity {
         //cerramos el drawerLayout
         drawerLayout.closeDrawer(drawerList);
 
+
     }
 
-    /**cargar fragment de los datos de la portada de la auditoria
-     * @param nombreArchivo
-     * @param nuevo
-     */
-    public void editarPortada(String nombreArchivo, boolean nuevo) {
+
+    public void editarPortada(Auditoria auditoria, boolean nuevo) {
+
+        String nombreArchivo=auditoria.getNombreArchivo();
 
         PortadaFragment fragmentportada = new PortadaFragment();
 
@@ -421,10 +409,13 @@ public class MainActivity extends ActionBarActivity {
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragmentportada).commit();
         //selecion por defecto del elemento
         drawerList.setItemChecked(POSICION_NUEVA_LISTA, true);
+        //asignamos la auditoria creada
+        this.auditoria=auditoria;
         //cambio de titulo
         setTitle(getResources().getString(R.string.tit_portadaauditoria));
         //cerramos el drawerLayout
         drawerLayout.closeDrawer(drawerList);
+
 
     }
 
@@ -446,8 +437,7 @@ public class MainActivity extends ActionBarActivity {
         fragmentManager.beginTransaction().replace(R.id.content_frame, firmafragment).commit();
         //selecion por defecto del elemento
         drawerList.setItemChecked(POSICION_NUEVA_LISTA, true);
-        //cambio de titulo
-        setTitle(getResources().getString(R.string.tit_firma));
+        setTitle(getResources().getString(R.string.tit_firma)+" : ");
         //cerramos el drawerLayout
         drawerLayout.closeDrawer(drawerList);
 
@@ -471,7 +461,7 @@ public class MainActivity extends ActionBarActivity {
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         //cambiamos titulo por listas de verificacion
-        setTitle(R.string.tit_navegacion_noconformidades);
+        setTitle(R.string.tit_navegacion_noconformidades+" : ");
         //y cerramos drawerList
         drawerLayout.closeDrawer(drawerList);
 
@@ -528,7 +518,7 @@ public class MainActivity extends ActionBarActivity {
                             Toast.makeText(getBaseContext(), getResources().getString(R.string.msg_archivo_existe), Toast.LENGTH_SHORT).show();
                         else {
                             //si ok llamamos al metodo de editar lista de verificaciones  para añadir un nuevo archivo
-                            editarPortada(nombre, true);
+                            editarPortada(auditoria, true);
                             //editarLV(nombre, true);
                             //pasamso a modo punto de control o
                             modo = Modo.Portada;

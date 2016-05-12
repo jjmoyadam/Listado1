@@ -87,7 +87,6 @@ public class NoConformidadFragment extends Fragment {
         //y cargamos
         sprequisito.setAdapter(adp);
 
-
         //añadimos a la tabla
         fila.addView(edreferencia);
         fila.addView(eddescripcion);
@@ -132,7 +131,6 @@ public class NoConformidadFragment extends Fragment {
 
         //referencia a la tabla
         tabla = (TableLayout) rootView.findViewById(R.id.tbnoconformidades);
-
 
         //que ocupen todo
         tabla.setColumnStretchable(0, true);

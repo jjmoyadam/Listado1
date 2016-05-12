@@ -113,13 +113,13 @@ public class PuntoControlFragment extends Fragment {
     	super.onCreate(savedInstanceState);
         LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.layout_pc, container, false);
         String archivo = getArguments().getString(ARG_NOMBRE_AUDITORIA);
-        nuevaLista = getArguments().getBoolean(ARG_NUEVA_AUDITORIA);
+        //nuevaLista = getArguments().getBoolean(ARG_NUEVA_AUDITORIA);
         ListaVerificacion lv;
-		auditoria=new Auditoria(archivo);
-
-        
+		Auditoria auditoria;
         contexto = getActivity();
     	fachadaExcel = new FachadaExcel(contexto);
+
+		auditoria=new Auditoria(archivo);
         
         //Inicializamos los controles
         tvDescripcionPC = (TextView) rootView.findViewById(R.id.tv_descripcion_pc);        
@@ -141,9 +141,6 @@ public class PuntoControlFragment extends Fragment {
         //Mostramos el contenido del primer punto de control de la lista de conformidades
         try {
 			//si nuevalista es true
-        	if(nuevaLista) {
-				lv=fachadaExcel.nuevaLista(auditoria);
-			}else
 				lv = fachadaExcel.leerListaConformidades(auditoria);
         	if(lv != null)
         	{
