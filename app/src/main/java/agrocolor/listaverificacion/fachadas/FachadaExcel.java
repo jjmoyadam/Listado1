@@ -37,6 +37,8 @@ public class FachadaExcel {
     private Context contexto;
     //extension del archivo
     public static final String EXTENSION_EXCEL = ".xls";
+    //private
+    private Auditoria auditoria;
 
 
     //metodo para obtener la ruta
@@ -59,14 +61,13 @@ public class FachadaExcel {
     //modificacion:
     //creacion del archivo y directorio
     private void crearArchivo(String nombre) throws IOException {
-        File f = new File(getRuta() + File.separator + nombre);
+        File f = new File(getRuta() + File.separator +nombre);
         f.createNewFile();
     }
 
     //creacion del archivo y directorio
     private File creardirauditoria(String nombre) throws IOException {
         File dir = new File(getRuta() + File.separator + nombre);
-
         dir.mkdir();
         return dir;
     }
@@ -170,15 +171,15 @@ public class FachadaExcel {
     /**
      * metodo que lee los datos de la portada
      *
-     * @param auditoria
+     * @param ruta
      * @return
      * @throws IOException
      */
-    public Auditoria leerPortada(Auditoria auditoria) throws IOException {
+    public Auditoria leerPortada(String ruta) throws IOException {
 
         Toast.makeText(contexto, "carga de datos portada", Toast.LENGTH_SHORT).show();
 		//recojo el archivo
-        File inputWorkbook = new File(auditoria.getNombreArchivo());
+        File inputWorkbook = new File(ruta);
 		//entrada de flujo de archivo
 		FileInputStream input_document = new FileInputStream(inputWorkbook);
 		//creacion del libro xls
@@ -186,7 +187,7 @@ public class FachadaExcel {
 		//posicionapmieto en la hoja de datos  y configuracion en las celdas
 		HSSFSheet sPortada = book.getSheet("Portada");
         //llamada al constructor que crea la auditoria
-       // auditoria = new Auditoria(archivo);
+        auditoria = new Auditoria(ruta);
 
         //si el libro existe
         if (inputWorkbook.exists()) {
@@ -475,6 +476,7 @@ public class FachadaExcel {
                     for (int j = 0; j < ficheros.length; j++) {
                         //obtenemos la extension
                         String extension = getExtension(ficheros[j].getName());
+                        String nombre=ficheros[j].getName();
                         if (extension.equals("xls")) {
                             lista.add(ficheros[j].getName());
                         }
@@ -490,14 +492,14 @@ public class FachadaExcel {
     /**
      * metodo para la creacion de una nueva  auditoria, cargando los datos desde la plantilla excel lv_eco
      *
-     * @param  auditoria
+     * @param  nombre
      * @return metodo leerListaConformidades de listade verificacion
      * @throws NotFoundException
      * @throws IOException
      */
-    public Auditoria nuevaauditoria(Auditoria auditoria) throws NotFoundException, IOException {
+    public Auditoria nuevaauditoria(String nombre) throws NotFoundException, IOException {
 
-        String nombreArchivo=auditoria.getNombreArchivo();
+        String nombreArchivo=nombre;
 
         if (!existe(nombreArchivo)) {
             //crea la carpeta para la auditoria
@@ -508,61 +510,23 @@ public class FachadaExcel {
             //AssetManager assetManager = contexto.getResources().getAssets();
             InputStream is = contexto.getResources().openRawResource(R.raw.lv_eco);
             byte[] buffer = new byte[1024];
-            crearArchivo(nombreArchivo);
             File out = new File(ruta, nombreArchivo);
             FileOutputStream fos = new FileOutputStream(out);
             int read = 0;
             while ((read = is.read(buffer, 0, 1024)) >= 0)
                 fos.write(buffer, 0, read);
-
             fos.flush();
             fos.close();
             is.close();
+            //asignar la ruta completa al nombre del archivo
+            nombreArchivo=out.getAbsolutePath();
             Toast.makeText(contexto, "archivo de la auditoria creada", Toast.LENGTH_LONG).show();
             //llama al metodo leerListaConformidades para cargar los datos de la nueva lista en la interfaz
-            return leerPortada(auditoria);
+            return leerPortada(nombreArchivo);
         }
         return null;
     }
 
-
-    /**
-     * MODIFICAR
-     * metodo para la creacion de un nuevo formulario, cargando los datos desde la plantilla excel lv_eco
-     *
-     * @param auditoria archivo a guardar
-     * @return metodo leerListaConformidades de listade verificacion
-     * @throws NotFoundException
-     * @throws IOException
-     */
-    public ListaVerificacion nuevaLista(Auditoria auditoria) throws NotFoundException, IOException {
-
-        String nombreArchivo = nombreExcel(auditoria.getNombreArchivo());
-
-        if (!existe(nombreArchivo)) {
-            //creamos el directorio
-            File dir = creardirauditoria(nombreArchivo);
-            //AssetManager assetManager = contexto.getResources().getAssets();
-            InputStream is = contexto.getResources().openRawResource(R.raw.lv_eco);
-            byte[] buffer = new byte[1024];
-
-            crearArchivo(dir.getPath() + nombreArchivo);
-            File out = new File(getRuta(), nombreArchivo);
-            FileOutputStream fos = new FileOutputStream(out);
-            int read = 0;
-
-            while ((read = is.read(buffer, 0, 1024)) >= 0)
-                fos.write(buffer, 0, read);
-
-            fos.flush();
-            fos.close();
-            is.close();
-            Toast.makeText(contexto, "archivo creado", Toast.LENGTH_LONG).show();
-            //llama al metodo leerListaConformidades para cargar los datos de la nueva lista en la interfaz
-            return leerListaConformidades(auditoria);
-        }
-        return null;
-    }
 
     /**
      * comprobacion de si existe el archivo

@@ -272,13 +272,13 @@ public class MainActivity extends ActionBarActivity {
 
             switch (position) {
                 case 0:
-                    editarPortada(auditoria, false);
+                    editarPortada(auditoria, false,nombre);
                     Toast.makeText(getApplicationContext(), "Ir a Portada", Toast.LENGTH_SHORT).show();
                     modo = Modo.Portada;
                     break;
                 case 1:
                     //carga de la auditoria creada
-                    editarLV(auditoria);
+                    editarLV(auditoria,nombre);
                     Toast.makeText(getApplicationContext(), "Ir a Lista de Verificacion", Toast.LENGTH_SHORT).show();
                     modo = Modo.ListadoLV;
 
@@ -291,7 +291,7 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 case 3:
                     Toast.makeText(getApplicationContext(), "Ir a Firma de Auditoria", Toast.LENGTH_SHORT).show();
-                    editarFirma();
+                    editarFirma(auditoria,nombre);
                     modo = Modo.Firma;
                     break;
                 case 4:
@@ -366,7 +366,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public void editarLV(Auditoria auditoria) {
+    public void editarLV(Auditoria auditoria,String nombre) {
 
         String nombreArchivo=auditoria.getNombreArchivo();
 
@@ -384,7 +384,7 @@ public class MainActivity extends ActionBarActivity {
         //selecion por defecto del elemento
         drawerList.setItemChecked(POSICION_NUEVA_LISTA, true);
         //cambio de titulo
-        setTitle(getResources().getString(R.string.tit_navegacion_verificacion));
+        setTitle(getResources().getString(R.string.tit_navegacion_verificacion)+" : "+nombre);
         //cerramos el drawerLayout
         drawerLayout.closeDrawer(drawerList);
 
@@ -392,7 +392,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public void editarPortada(Auditoria auditoria, boolean nuevo) {
+    public void editarPortada(Auditoria auditoria, boolean nuevo,String nombre) {
 
         String nombreArchivo=auditoria.getNombreArchivo();
 
@@ -409,10 +409,13 @@ public class MainActivity extends ActionBarActivity {
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragmentportada).commit();
         //selecion por defecto del elemento
         drawerList.setItemChecked(POSICION_NUEVA_LISTA, true);
-        //asignamos la auditoria creada
-        this.auditoria=auditoria;
+        //asignamos la auditoria creada para pasarla a los otros metodos editar
+        if(!nuevo) {
+            this.auditoria = auditoria;
+            this.nombre=nombre;
+        }
         //cambio de titulo
-        setTitle(getResources().getString(R.string.tit_portadaauditoria));
+        setTitle(getResources().getString(R.string.tit_portadaauditoria)+" : "+nombre);
         //cerramos el drawerLayout
         drawerLayout.closeDrawer(drawerList);
 
@@ -422,7 +425,7 @@ public class MainActivity extends ActionBarActivity {
     /**cargar fragment de la firma para la auditoria
      *
      */
-    public void editarFirma() {
+    public void editarFirma(Auditoria auditoria,String nombre) {
 
         FirmaFragment firmafragment = new FirmaFragment();
 
@@ -437,7 +440,7 @@ public class MainActivity extends ActionBarActivity {
         fragmentManager.beginTransaction().replace(R.id.content_frame, firmafragment).commit();
         //selecion por defecto del elemento
         drawerList.setItemChecked(POSICION_NUEVA_LISTA, true);
-        setTitle(getResources().getString(R.string.tit_firma)+" : ");
+        setTitle(getResources().getString(R.string.tit_portadaauditoria)+" : "+nombre);
         //cerramos el drawerLayout
         drawerLayout.closeDrawer(drawerList);
 
@@ -509,7 +512,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void onClick(View v) {
                         //trim() quita los espacios en blanco del editext
-                        String nombre = et.getText().toString().trim();
+                         nombre = et.getText().toString().trim();
                         //si la validacion del nombre es incorrecta
                         if (!FachadaExcel.nombreValido(nombre))
                             Toast.makeText(getBaseContext(), getResources().getString(R.string.msg_error_nombre_archivo_no_valido), Toast.LENGTH_SHORT).show();
@@ -517,8 +520,11 @@ public class MainActivity extends ActionBarActivity {
                         else if (new FachadaExcel(getBaseContext()).existe(nombre))
                             Toast.makeText(getBaseContext(), getResources().getString(R.string.msg_archivo_existe), Toast.LENGTH_SHORT).show();
                         else {
+                            //nombre que contiene la ruta total
+
+                            auditoria=new Auditoria(nombre);
                             //si ok llamamos al metodo de editar lista de verificaciones  para añadir un nuevo archivo
-                            editarPortada(auditoria, true);
+                            editarPortada(auditoria, true, nombre);
                             //editarLV(nombre, true);
                             //pasamso a modo punto de control o
                             modo = Modo.Portada;

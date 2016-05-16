@@ -52,11 +52,9 @@ public class PortadaFragment extends Fragment {
         tvvisita=(TextView)rootView.findViewById(R.id.tvCodVisita);
         tvoperador=(TextView)rootView.findViewById(R.id.tvCodCooperador);
 
-
         //fachada excel
         fachadaexcel=new FachadaExcel(contexto);
-        //creacion de la auditoria
-        auditoria = new Auditoria(archivo);
+
 
         edfecha=(EditText)rootView.findViewById(R.id.edFecha);
         edvisita =(EditText)rootView.findViewById(R.id.edCodigoVisita);
@@ -72,26 +70,26 @@ public class PortadaFragment extends Fragment {
             if (nuevaaduditoria) {
 
                 Toast.makeText(getContext(),"Nueva auditoria",Toast.LENGTH_SHORT).show();
-                auditoria=fachadaexcel.nuevaauditoria(auditoria);
+                auditoria=fachadaexcel.nuevaauditoria(archivo);
 
             } else {
                 Toast.makeText(getContext(), "la auditoria existe", Toast.LENGTH_SHORT).show();
-                auditoria=fachadaexcel.leerPortada(auditoria);
-                /*
+                auditoria=fachadaexcel.leerPortada(archivo);
+
                 if(auditoria != null)
                 {
                     cargarDatosPortada(auditoria);
                     Toast.makeText(getContext(),"Datos Cargados",Toast.LENGTH_SHORT).show();
                 }
-                */
+
+
             }
         } catch (IOException e) {
-            //Mensaje.mostrar(contexto, getResources().getString(R.string.tit_error), e.getStackTrace().toString(), getResources().getString(R.string.aceptar), null);
+            Toast.makeText(getContext(), "error ", Toast.LENGTH_SHORT).show();
         }
 
         return rootView;
     }
-
 
     public PortadaFragment() {
         setHasOptionsMenu(true);
