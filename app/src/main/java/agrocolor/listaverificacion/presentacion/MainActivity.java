@@ -276,17 +276,18 @@ public class MainActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Ir a Portada", Toast.LENGTH_SHORT).show();
                     modo = Modo.Portada;
                     break;
+
                 case 1:
                     //carga de la auditoria creada
                     editarLV(auditoria,nombre);
                     Toast.makeText(getApplicationContext(), "Ir a Lista de Verificacion", Toast.LENGTH_SHORT).show();
                     modo = Modo.ListadoLV;
-
                     break;
+
                 case 2:
                     Toast.makeText(getApplicationContext(), "Ir a no Conformidades", Toast.LENGTH_SHORT).show();
                     modo = Modo.NoConformidades;
-                    editarNoConformidades();
+                    editarNoConformidades(auditoria,nombre);
 
                     break;
                 case 3:
@@ -449,22 +450,24 @@ public class MainActivity extends ActionBarActivity {
     /**Cargar fragment de las conformidades de la auditoria
      * debemos de hacer que gire
      */
-    private void editarNoConformidades() {
+    private void editarNoConformidades(Auditoria auditoria,String nombre) {
+
+        String nombreArchivo=auditoria.getNombreArchivo();
+
+        NoConformidadFragment fragmentnoconformidades = new NoConformidadFragment();
+
         //pasamos los argumentos al fragment el nombre del archivo y si es nueva o no
-        //Bundle args = new Bundle();
-        //args.putString(PortadaFragment.ARG_NOMBRE_AUDITORIA, nombreArchivo);
-        //args.putBoolean(PortadaFragment.ARG_NUEVA_AUDITORIA, nuevo);
+        Bundle args = new Bundle();
+        args.putString(PortadaFragment.ARG_NOMBRE_AUDITORIA, nombreArchivo);
         //lo asignamos con el set
-        //fragmentportada.setArguments(args);
+        fragmentnoconformidades.setArguments(args);
         //mediante el fragmentManager reemplazamos el content_frame por el fragment creado con los datos
 
-        NoConformidadFragment fragment = new NoConformidadFragment();
-
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragmentnoconformidades).commit();
 
         //cambiamos titulo por listas de verificacion
-        setTitle(R.string.tit_navegacion_noconformidades+" : ");
+        setTitle(R.string.tit_navegacion_noconformidades+" : "+nombre);
         //y cerramos drawerList
         drawerLayout.closeDrawer(drawerList);
 

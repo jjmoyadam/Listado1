@@ -55,7 +55,6 @@ public class PortadaFragment extends Fragment {
         //fachada excel
         fachadaexcel=new FachadaExcel(contexto);
 
-
         edfecha=(EditText)rootView.findViewById(R.id.edFecha);
         edvisita =(EditText)rootView.findViewById(R.id.edCodigoVisita);
         edoperador=(EditText)rootView.findViewById(R.id.edCodigoCooperador);
@@ -85,7 +84,7 @@ public class PortadaFragment extends Fragment {
 
             }
         } catch (IOException e) {
-            Toast.makeText(getContext(), "error ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Error en la Carga de Datos de la Portada", Toast.LENGTH_SHORT).show();
         }
 
         return rootView;

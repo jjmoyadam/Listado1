@@ -24,11 +24,17 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.List;
+
+import agrocolor.listaverificacion.fachadas.FachadaExcel;
+import agrocolor.listaverificacion.modelos.Auditoria;
+import agrocolor.listaverificacion.modelos.NoConformidad;
 
 
 public class NoConformidadFragment extends Fragment {
     //creacion de las variables
+    private String ARG_NOMBRE_AUDITORIA="nombre_auditoria";
     private String[] arraySpinner;
     private Context context;
     private TableLayout tabla;
@@ -37,9 +43,69 @@ public class NoConformidadFragment extends Fragment {
     private EditText eddescripcion, edreferencia;
     private Spinner sprequisito, sptipo;
     private CheckBox cbseleccion;
+    private NoConformidad nc;
+    private MainActivity contexto;
+    private Auditoria auditoria;
+    private FachadaExcel fachadaExcel;
+
+
 
     private Button btadd, btdelete;
 
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        //referencia al contendedor
+        rootView = (LinearLayout) inflater.inflate(R.layout.fragment_no_conformidad, container, false);
+
+        //referencia a la tabla
+        tabla = (TableLayout) rootView.findViewById(R.id.tbnoconformidades);
+
+
+
+        //que ocupen todo
+        tabla.setColumnStretchable(0, true);
+        tabla.setColumnStretchable(1, true);
+        tabla.setColumnStretchable(2, true);
+        tabla.setColumnStretchable(3, true);
+
+        //recepcion de bundle
+        String archivo = getArguments().getString(ARG_NOMBRE_AUDITORIA);
+        //le pasamos el contexto
+        contexto = (MainActivity)getActivity();
+        //fachada
+        fachadaExcel=new FachadaExcel(contexto);
+
+        //auditoria
+        auditoria = new Auditoria(archivo);
+
+
+        //Mostramos el contenido del primer punto de control de la lista de conformidades
+        try {
+            //si nuevalista es true
+            fachadaExcel.leerListaNoConformidades(auditoria);
+            if(nc != null)
+            {   /*
+                pcIter = new PCIterator(lv);
+                if(savedInstanceState != null)
+                {
+                    pcIter.setActual(savedInstanceState.getInt(ARG_PC_ACTUAL));
+                    mostrarPC(pcIter.actual());
+                }
+                else
+                    mostrarPC(pcIter.siguiente());
+                    */
+            }
+
+        } catch (IOException e) {
+            //Mensaje.mostrar(contexto, getResources().getString(R.string.tit_error), e.getStackTrace().toString(), getResources().getString(R.string.aceptar), null);
+        }
+
+
+        // Inflate the layout for this fragment
+        return rootView;
+    }
 
     public NoConformidadFragment() {
         setHasOptionsMenu(true);
@@ -118,28 +184,8 @@ public class NoConformidadFragment extends Fragment {
 
             }
 
-
         }
-        Toast.makeText(getContext(), "total seleccionados " + seleccion + " de registros " + datos, Toast.LENGTH_SHORT).show();
+
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        //referencia al contendedor
-        rootView = (LinearLayout) inflater.inflate(R.layout.fragment_no_conformidad, container, false);
-
-        //referencia a la tabla
-        tabla = (TableLayout) rootView.findViewById(R.id.tbnoconformidades);
-
-        //que ocupen todo
-        tabla.setColumnStretchable(0, true);
-        tabla.setColumnStretchable(1, true);
-        tabla.setColumnStretchable(2, true);
-        tabla.setColumnStretchable(3, true);
-
-
-        // Inflate the layout for this fragment
-        return rootView;
-    }
 }

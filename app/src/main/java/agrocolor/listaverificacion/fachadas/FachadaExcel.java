@@ -126,13 +126,13 @@ public class FachadaExcel {
     /**
      * metodo de lista de no conformidades devuelve arraylist de tipo ob no conformidad
      *
-     * @param archivo
+     * @param auditoria
      * @return
      * @throws IOException
      */
-    public ArrayList<NoConformidad> leerListaNoConformidades(String archivo) throws IOException {
+    public void leerListaNoConformidades(Auditoria auditoria) throws IOException {
         //recojo el archivo
-        File inputWorkbook = new File(getRuta() + File.separator + archivo);
+        File inputWorkbook = new File(auditoria.getNombreArchivo());
         //entrada de flujo de archivo
         FileInputStream input_document = new FileInputStream(inputWorkbook);
         //creacion del libro xls
@@ -149,22 +149,20 @@ public class FachadaExcel {
         if (inputWorkbook.exists()) {
             //recorremos todas las filas
             for (int i = 1; i <= sNoConformidades.getLastRowNum(); i++) {
-                //tomamos los datos
+                //tomamos la fila de los datos de no conformidades
                 Row rowNoConformidades = sNoConformidades.getRow(i);
-
                 //y guardamos los valores en un objeto no conformidad
-                nc = CrearNoconformidades(rowNoConformidades);
-
+                //nc = CrearNoconformidades(rowNoConformidades);
                 //agregamos al arraylist
                 noConformidades.add(nc);
 
             }
 
-            return noConformidades;
+            //return noConformidades;
 
         }
         //si no creamos el libro retornams null
-        return null;
+        //return null;
 
     }
 
@@ -208,6 +206,7 @@ public class FachadaExcel {
         }
         return auditoria;
     }
+
 
     //pasa el valor de la celda a String
     private String toString(Cell cell) {
