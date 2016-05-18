@@ -19,12 +19,22 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import agrocolor.listaverificacion.fachadas.FachadaExcel;
@@ -34,7 +44,7 @@ import agrocolor.listaverificacion.modelos.NoConformidad;
 
 public class NoConformidadFragment extends Fragment {
     //creacion de las variables
-    private String ARG_NOMBRE_AUDITORIA="nombre_auditoria";
+    private String ARG_NOMBRE_AUDITORIA = "nombre_auditoria";
     private String[] arraySpinner;
     private Context context;
     private TableLayout tabla;
@@ -43,11 +53,11 @@ public class NoConformidadFragment extends Fragment {
     private EditText eddescripcion, edreferencia;
     private Spinner sprequisito, sptipo;
     private CheckBox cbseleccion;
-    private NoConformidad nc;
+    private ArrayList<NoConformidad> nc;
+    private ArrayList<String> spinnernc;
     private MainActivity contexto;
     private Auditoria auditoria;
     private FachadaExcel fachadaExcel;
-
 
 
     private Button btadd, btdelete;
@@ -63,7 +73,6 @@ public class NoConformidadFragment extends Fragment {
         tabla = (TableLayout) rootView.findViewById(R.id.tbnoconformidades);
 
 
-
         //que ocupen todo
         tabla.setColumnStretchable(0, true);
         tabla.setColumnStretchable(1, true);
@@ -73,29 +82,34 @@ public class NoConformidadFragment extends Fragment {
         //recepcion de bundle
         String archivo = getArguments().getString(ARG_NOMBRE_AUDITORIA);
         //le pasamos el contexto
-        contexto = (MainActivity)getActivity();
+        contexto = (MainActivity) getActivity();
         //fachada
-        fachadaExcel=new FachadaExcel(contexto);
+        fachadaExcel = new FachadaExcel(contexto);
 
         //auditoria
         auditoria = new Auditoria(archivo);
 
+        //creacion del spinner con los datos
+        //array para tipo no conformidades
+        try {
+            spinnernc=crearArrayNoconformidades(auditoria.getNombreArchivo());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        //Mostramos el contenido del primer punto de control de la lista de conformidades
+
+        //Mostramos el contenido de la lista de noconformidades
         try {
             //si nuevalista es true
-            fachadaExcel.leerListaNoConformidades(auditoria);
-            if(nc != null)
-            {   /*
-                pcIter = new PCIterator(lv);
-                if(savedInstanceState != null)
-                {
-                    pcIter.setActual(savedInstanceState.getInt(ARG_PC_ACTUAL));
-                    mostrarPC(pcIter.actual());
-                }
-                else
-                    mostrarPC(pcIter.siguiente());
-                    */
+            nc = fachadaExcel.leerListaNoConformidades(auditoria);
+
+            if (nc != null) {
+
+                mostrarNoConformidades(nc);
+
+            } else {
+
+
             }
 
         } catch (IOException e) {
@@ -134,6 +148,33 @@ public class NoConformidadFragment extends Fragment {
         }
 
     }
+
+    private ArrayList<String> crearArrayNoconformidades(String archivo) throws IOException {
+
+
+        File inputWorkbook = new File(archivo);
+        //entrada de flujo de archivo
+        FileInputStream input_document = new FileInputStream(inputWorkbook);
+        //creacion del libro xls
+        HSSFWorkbook book = new HSSFWorkbook(input_document);
+        //posicionamiento en la hoja configuracion
+        HSSFSheet sconfig= book.getSheet("Lista");
+
+        spinnernc=new ArrayList<>();
+
+        //recorremos los datos para añadirlo a un arraylist
+        for(int i=1;i<sconfig.getLastRowNum();i++){
+
+            Row rowConfig = sconfig.getRow(i);
+            Cell cel = rowConfig.getCell(0);
+            if(cel!=null)
+                spinnernc.add(cel.getStringCellValue());
+
+        }
+
+       return spinnernc;
+    }
+
     /**
      * añadir fila al tablelayout
      */
@@ -149,9 +190,9 @@ public class NoConformidadFragment extends Fragment {
         cbseleccion = new CheckBox(getContext());
 
         //adaptador de array
-        ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(getContext(), R.array.valores_noconformidad, R.layout.layout_spinner);
+        ArrayAdapter<CharSequence> adp2 = ArrayAdapter.createFromResource(getContext(), R.array.valores_noconformidad, R.layout.layout_spinner);
         //y cargamos
-        sprequisito.setAdapter(adp);
+        sprequisito.setAdapter(adp2);
 
         //añadimos a la tabla
         fila.addView(edreferencia);
@@ -164,6 +205,62 @@ public class NoConformidadFragment extends Fragment {
         tabla.addView(fila);
 
         Toast.makeText(getContext(), "fila añadida", Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    private TableRow escribirfila(NoConformidad nc) {
+        //creamos una nueva fila
+        fila = new TableRow(getContext());
+
+        //añadimos los componentes que forman la fila
+        edreferencia = new EditText(getContext());
+        eddescripcion = new EditText(getContext());
+        sprequisito = new Spinner(getContext());
+        sptipo = new Spinner(getContext());
+        cbseleccion = new CheckBox(getContext());
+
+
+        //adaptador de array para requisito
+        ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(getContext(), R.array.valores_noconformidad, R.layout.layout_spinner);
+        //y cargamos
+        sprequisito.setAdapter(adp);
+
+        //escribimos el dato en el elemento
+        edreferencia.setText(String.valueOf(nc.getNumero()));
+        eddescripcion.setText(nc.getDescripcion());
+
+        //para el spinner
+        String requisito = nc.getRequisito();
+        switch (requisito) {
+            case "OC":
+                sprequisito.setSelection(0);
+                break;
+            case "ID":
+                sprequisito.setSelection(1);
+                break;
+            case "IR":
+                sprequisito.setSelection(2);
+                break;
+            case "IF":
+                sprequisito.setSelection(3);
+                break;
+        }
+
+
+        //añadimos a la tabla
+        fila.addView(edreferencia);
+        fila.addView(eddescripcion);
+        fila.addView(sprequisito);
+        fila.addView(sptipo);
+        fila.addView(cbseleccion);
+        //y la añadimos a la vista
+
+        tabla.addView(fila);
+
+        Toast.makeText(getContext(), "fila añadida", Toast.LENGTH_SHORT).show();
+
+        return fila;
     }
 
     private void deletefila() {
@@ -174,17 +271,38 @@ public class NoConformidadFragment extends Fragment {
         //recorremos las filas
         for (int i = 1; i < tabla.getChildCount(); i++) {
             //nos colocamos en la fila
-            fila= (TableRow) tabla.getChildAt(i);
+            fila = (TableRow) tabla.getChildAt(i);
             //checkbox
             cbseleccion = (CheckBox) fila.getChildAt(4);
             //comprobamos si el checkbox esta seleccionado
-            if (cbseleccion.isChecked()){
+            if (cbseleccion.isChecked()) {
 
                 tabla.removeView(fila);
 
             }
 
         }
+
+    }
+
+    //crear filas segun datos leidos
+    private void crearFilas(ArrayList<NoConformidad> noConformidades) {
+        //extension del arraylist
+        int size = noConformidades.size();
+
+
+    }
+
+    private void mostrarNoConformidades(ArrayList<NoConformidad> noConformidades) {
+
+
+        for (int i = 0; i < noConformidades.size(); i++) {
+            //añadimosfila
+            escribirfila(noConformidades.get(i));
+            //y escribimos los datos de la hoja excel
+
+        }
+
 
     }
 

@@ -10,7 +10,7 @@ public class NoConformidad {
 	private String nombrearchivo;
 
 	//añado variables
-	private char requisito;
+	private String requisito;
 	private String Tipo;
 	private int fila;
 
@@ -32,11 +32,11 @@ public class NoConformidad {
 	}
 
 	//metodos get and set
-	public char getRequisito() {
+	public String getRequisito() {
 		return requisito;
 	}
 
-	public void setRequisito(char requisito) {
+	public void setRequisito(String requisito) {
 		this.requisito = requisito;
 	}
 

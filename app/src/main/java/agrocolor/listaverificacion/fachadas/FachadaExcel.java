@@ -130,7 +130,7 @@ public class FachadaExcel {
      * @return
      * @throws IOException
      */
-    public void leerListaNoConformidades(Auditoria auditoria) throws IOException {
+    public ArrayList<NoConformidad> leerListaNoConformidades(Auditoria auditoria) throws IOException {
         //recojo el archivo
         File inputWorkbook = new File(auditoria.getNombreArchivo());
         //entrada de flujo de archivo
@@ -138,7 +138,10 @@ public class FachadaExcel {
         //creacion del libro xls
         HSSFWorkbook book = new HSSFWorkbook(input_document);
         //posicionamieto en la hoja de datos  y configuracion en las celdas
-        HSSFSheet sNoConformidades = book.getSheet("NoConformidad");
+        HSSFSheet sNoConformidades = book.getSheet("NoConformidades");
+
+        //obtener la ultima fila
+        int fila=sNoConformidades.getLastRowNum();
 
         //creacion de objeto no conformidad
         ArrayList<NoConformidad> noConformidades;
@@ -152,17 +155,16 @@ public class FachadaExcel {
                 //tomamos la fila de los datos de no conformidades
                 Row rowNoConformidades = sNoConformidades.getRow(i);
                 //y guardamos los valores en un objeto no conformidad
-                //nc = CrearNoconformidades(rowNoConformidades);
+                nc = CrearNoconformidades(rowNoConformidades);
                 //agregamos al arraylist
                 noConformidades.add(nc);
 
             }
-
-            //return noConformidades;
+            return noConformidades;
 
         }
         //si no creamos el libro retornams null
-        //return null;
+        return null;
 
     }
 
@@ -349,6 +351,7 @@ public class FachadaExcel {
      * @param r
      */
     private void escribirNoConformidades(NoConformidad nc, Row r) {
+
         r.getCell(contexto.getResources().getInteger(R.integer.COL_REFERENCIA_NC)).setCellValue(nc.getNumero());
         r.getCell(contexto.getResources().getInteger(R.integer.COL_DESCRIPCION_NC)).setCellValue(nc.getDescripcion());
         r.getCell(contexto.getResources().getInteger(R.integer.COL_REQUISITOS_NC)).setCellValue(nc.getTipo());
@@ -427,17 +430,22 @@ public class FachadaExcel {
         NoConformidad nc = new NoConformidad();
         //tomamos el valor de la columna de cada fila pasada por parametro y evaluamos
         //si los datos no null
+        //referencia int
         Cell cel = rDatosNoConf.getCell(contexto.getResources().getInteger(R.integer.COL_REFERENCIA_NC));
-        if (cel != null) nc.setNumero(Integer.parseInt(toString(cel)));
+        if (cel != null) nc.setNumero((int)cel.getNumericCellValue());
+        //descripcion text
         cel = rDatosNoConf.getCell(contexto.getResources().getInteger(R.integer.COL_DESCRIPCION_NC));
         if (cel != null) nc.setDescripcion(cel.getStringCellValue().trim());
+        //requisito char
         cel = rDatosNoConf.getCell(contexto.getResources().getInteger(R.integer.COL_REQUISITOS_NC));
-        if (cel != null) nc.setDescripcion(cel.getStringCellValue().trim());
+        if (cel != null) nc.setRequisito(cel.getStringCellValue().trim());
+        //tipo string
         cel = rDatosNoConf.getCell(contexto.getResources().getInteger(R.integer.COL_TIPO_NC));
-        if (cel != null) nc.setDescripcion(cel.getStringCellValue().trim());
-        //devuelve la lista de verificacion
+        if (cel != null) nc.setTipo(String.valueOf(cel.getNumericCellValue()));
+        //devuelve la lista de no conformidades
         return nc;
     }
+
 
     /**
      * obtenemos la extension con este metodo
