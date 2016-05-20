@@ -127,13 +127,15 @@ public class PortadaFragment extends Fragment {
     }
 
     private void guardarDatosPortada(){
-        //reseteo de datos
-        String fecha=edfecha.getText().toString();
-        String visita= edvisita.getText().toString();
-        String operador=edoperador.getText().toString();
+        //recogemos los datos
+        auditoria.setFecha(Integer.parseInt(edfecha.getText().toString()));
+        auditoria.setCodvista(Integer.parseInt(edvisita.getText().toString()));
+        auditoria.setCodopeador(Integer.parseInt(edoperador.getText().toString()));
+        auditoria.setNumvisita(Integer.parseInt(ednumvisita.getText().toString()));
+
         //lo guardamos con el metodo de la fachada
         try {
-            fachadaexcel.escribirPortada(auditoria,fecha,visita,operador);
+            fachadaexcel.escribirPortada(auditoria);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -177,6 +177,8 @@ public class FachadaExcel {
      */
     public Auditoria leerPortada(String ruta) throws IOException {
 
+
+
         Toast.makeText(contexto, "carga de datos portada", Toast.LENGTH_SHORT).show();
 		//recojo el archivo
         File inputWorkbook = new File(ruta);
@@ -186,8 +188,10 @@ public class FachadaExcel {
 		HSSFWorkbook book = new HSSFWorkbook(input_document);
 		//posicionapmieto en la hoja de datos  y configuracion en las celdas
 		HSSFSheet sPortada = book.getSheet("Portada");
+
         //llamada al constructor que crea la auditoria
         auditoria = new Auditoria(ruta);
+
 
         //si el libro existe
         if (inputWorkbook.exists()) {
@@ -206,6 +210,7 @@ public class FachadaExcel {
             if(celdanumvisita!=null)
             auditoria.setNumvisita((int)celdanumvisita.getNumericCellValue());
         }
+        auditoria.setWorkbook(book);
         return auditoria;
     }
 
@@ -285,18 +290,19 @@ public class FachadaExcel {
 
     }
     //escritura en fichero excel la portada
-    public void escribirPortada(Auditoria auditoria,String fecha,String visita,String operador) throws NotFoundException, IOException {
+    public void escribirPortada(Auditoria auditoria) throws NotFoundException, IOException {
 
         //toma el nombre del archivo
         String nombreArchivo = nombreExcel(auditoria.getNombreArchivo());
         //creacion del archivo
         File inputWorkbook = new File(nombreArchivo);
         //salida del flujo de datos hacia el libro, true para evitar que machaque datos
-        FileOutputStream fos = new FileOutputStream(inputWorkbook,true);
+        FileOutputStream fos = new FileOutputStream(inputWorkbook,false);
         //si el archivo se ha creado
         if (inputWorkbook.exists()) {
 
             HSSFSheet sPortada = auditoria.getWorkbook().getSheet("Portada");
+
             //tomamos los datos
             Cell celdafecha=sPortada.getRow(0).getCell(1);
             Cell celdavisita=sPortada.getRow(1).getCell(1);
@@ -304,10 +310,10 @@ public class FachadaExcel {
             Cell celdanumvisita=sPortada.getRow(3).getCell(1);
 
             //y escribimos
-            celdafecha.setCellValue(fecha);
-            celdavisita.setCellValue(visita);
-            celdaoperador.setCellValue(operador);
-            celdanumvisita.setCellValue(visita);
+            celdafecha.setCellValue(auditoria.getFecha());
+            celdavisita.setCellValue(auditoria.getCodvista());
+            celdaoperador.setCellValue(auditoria.getCodopeador());
+            celdanumvisita.setCellValue(auditoria.getNumvisita());
 
             //y escribimos
             auditoria.getWorkbook().write(fos);
