@@ -50,8 +50,8 @@ public class NoConformidadFragment extends Fragment {
     private TableLayout tabla;
     private TableRow fila;
     private LinearLayout rootView;
-    private EditText eddescripcion, edreferencia;
-    private Spinner sprequisito, sptipo;
+    private EditText eddescripcion, edreferencia,edrequisito;
+    private Spinner sptipo;
     private CheckBox cbseleccion;
     private ArrayList<NoConformidad> nc;
     private ArrayList<String> spinnernc;
@@ -93,6 +93,7 @@ public class NoConformidadFragment extends Fragment {
         //array para tipo no conformidades
         try {
             spinnernc=crearArrayNoconformidades(auditoria.getNombreArchivo());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -100,7 +101,7 @@ public class NoConformidadFragment extends Fragment {
 
         //Mostramos el contenido de la lista de noconformidades
         try {
-            //si nuevalista es true
+
             nc = fachadaExcel.leerListaNoConformidades(auditoria);
 
             if (nc != null) {
@@ -142,6 +143,10 @@ public class NoConformidadFragment extends Fragment {
                 return true;
             case R.id.btn_borrar_nc:
                 deletefila();
+                return true;
+            case R.id.btn_guardar_nc:
+                escribirNoconformidades();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -185,19 +190,19 @@ public class NoConformidadFragment extends Fragment {
         //añadimos los componentes que forman la fila
         edreferencia = new EditText(getContext());
         eddescripcion = new EditText(getContext());
-        sprequisito = new Spinner(getContext());
+        edrequisito = new EditText(getContext());
         sptipo = new Spinner(getContext());
         cbseleccion = new CheckBox(getContext());
 
         //adaptador de array
         ArrayAdapter<CharSequence> adp2 = ArrayAdapter.createFromResource(getContext(), R.array.valores_noconformidad, R.layout.layout_spinner);
         //y cargamos
-        sprequisito.setAdapter(adp2);
+        sptipo.setAdapter(adp2);
 
         //añadimos a la tabla
         fila.addView(edreferencia);
         fila.addView(eddescripcion);
-        fila.addView(sprequisito);
+        fila.addView(edrequisito);
         fila.addView(sptipo);
         fila.addView(cbseleccion);
         //y la añadimos a la vista
@@ -208,61 +213,61 @@ public class NoConformidadFragment extends Fragment {
 
 
     }
-
-    private TableRow escribirfila(NoConformidad nc) {
+    //leer hoja de conformidades
+    private TableRow leerfilanoconformidades (NoConformidad nc) {
         //creamos una nueva fila
         fila = new TableRow(getContext());
 
         //añadimos los componentes que forman la fila
         edreferencia = new EditText(getContext());
         eddescripcion = new EditText(getContext());
-        sprequisito = new Spinner(getContext());
         sptipo = new Spinner(getContext());
+        edrequisito = new EditText(getContext());
         cbseleccion = new CheckBox(getContext());
 
 
         //adaptador de array para requisito
         ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(getContext(), R.array.valores_noconformidad, R.layout.layout_spinner);
         //y cargamos
-        sprequisito.setAdapter(adp);
+        sptipo.setAdapter(adp);
 
         //escribimos el dato en el elemento
         edreferencia.setText(String.valueOf(nc.getNumero()));
         eddescripcion.setText(nc.getDescripcion());
 
         //para el spinner
-        String requisito = nc.getRequisito();
-        switch (requisito) {
+        String tipo = nc.getTipo();
+        switch (tipo) {
             case "OC":
-                sprequisito.setSelection(0);
+                sptipo.setSelection(0);
                 break;
             case "ID":
-                sprequisito.setSelection(1);
+                sptipo.setSelection(1);
                 break;
             case "IR":
-                sprequisito.setSelection(2);
+                sptipo.setSelection(2);
                 break;
             case "IF":
-                sprequisito.setSelection(3);
+                sptipo.setSelection(3);
                 break;
         }
+
+        edrequisito.setText(nc.getRequisito());
 
 
         //añadimos a la tabla
         fila.addView(edreferencia);
         fila.addView(eddescripcion);
-        fila.addView(sprequisito);
+        fila.addView(edrequisito);
         fila.addView(sptipo);
         fila.addView(cbseleccion);
         //y la añadimos a la vista
 
         tabla.addView(fila);
 
-        Toast.makeText(getContext(), "fila añadida", Toast.LENGTH_SHORT).show();
-
         return fila;
     }
-
+    //borrar una fila
     private void deletefila() {
         //contador de seleccion
         int seleccion = 0;
@@ -292,18 +297,43 @@ public class NoConformidadFragment extends Fragment {
 
 
     }
-
+    //mostramos las noconformidades en la tabla
     private void mostrarNoConformidades(ArrayList<NoConformidad> noConformidades) {
 
 
         for (int i = 0; i < noConformidades.size(); i++) {
             //añadimosfila
-            escribirfila(noConformidades.get(i));
-            //y escribimos los datos de la hoja excel
+            leerfilanoconformidades (noConformidades.get(i));
+            //y escribimos los datos de la hoja excel en ña tabla
 
         }
 
 
     }
+
+    //escribimos datos de la tabla en la hoja de excel
+    private void escribirNoconformidades (){
+
+        //tamaño de la tabla para guardar datos
+        int size=tabla.getChildCount()-1;
+
+        //recorremos cada fila
+        for (int i = 1; i < size; i++) {
+
+
+            //fachadaExcel.escribirNoConformidades(nc,fila);
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+
 
 }

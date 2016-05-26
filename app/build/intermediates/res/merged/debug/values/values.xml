@@ -331,6 +331,7 @@
     <string name="drawer_open">Abrir navigation drawer</string>
     <string name="guardar">Guardar</string>
     <string name="guardar_firma">Guardar Firma</string>
+    <string name="guardar_nc">Guardar No Conformidad</string>
     <string name="headlines">Encabezados de</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hint_nuevo_archivo">Nombre del archivo</string>

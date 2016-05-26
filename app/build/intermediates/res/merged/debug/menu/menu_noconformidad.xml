@@ -17,4 +17,11 @@
         android:title="@string/borrar_nc"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/btn_guardar_nc"
+        android:icon="@drawable/ic_guardado"
+        android:orderInCategory="3"
+        android:title="@string/guardar_nc"
+        app:showAsAction="always"/>
+
 </menu>

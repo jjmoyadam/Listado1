@@ -15,15 +15,21 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Header;
+import org.apache.poi.ss.usermodel.Picture;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.util.IOUtils;
 
 import agrocolor.listaverificacion.modelos.Auditoria;
 import agrocolor.listaverificacion.modelos.GrupoPuntoControl;
 import agrocolor.listaverificacion.modelos.ListaVerificacion;
 import agrocolor.listaverificacion.modelos.NoConformidad;
 import agrocolor.listaverificacion.modelos.PuntoControl;
+import agrocolor.listaverificacion.presentacion.FirmaVista;
 import agrocolor.listaverificacion.presentacion.R;
 
 import android.content.Context;
@@ -31,7 +37,13 @@ import android.content.res.Resources.NotFoundException;
 import android.os.Environment;
 import android.widget.Toast;
 
+import android.graphics.Bitmap;
+
 public class FachadaExcel {
+
+    //private
+    private Bitmap bitmapfirma;
+    private FirmaVista firmaVista;
 
     //variable que le pasa el contexto
     private Context contexto;
@@ -39,6 +51,7 @@ public class FachadaExcel {
     public static final String EXTENSION_EXCEL = ".xls";
     //private
     private Auditoria auditoria;
+
 
 
     //metodo para obtener la ruta
@@ -61,7 +74,7 @@ public class FachadaExcel {
     //modificacion:
     //creacion del archivo y directorio
     private void crearArchivo(String nombre) throws IOException {
-        File f = new File(getRuta() + File.separator +nombre);
+        File f = new File(getRuta() + File.separator + nombre);
         f.createNewFile();
     }
 
@@ -71,7 +84,6 @@ public class FachadaExcel {
         dir.mkdir();
         return dir;
     }
-
 
 
     //metodo para la lista de verificacion que recibe el archivo
@@ -141,7 +153,7 @@ public class FachadaExcel {
         HSSFSheet sNoConformidades = book.getSheet("NoConformidades");
 
         //obtener la ultima fila
-        int fila=sNoConformidades.getLastRowNum();
+        int fila = sNoConformidades.getLastRowNum();
 
         //creacion de objeto no conformidad
         ArrayList<NoConformidad> noConformidades;
@@ -178,16 +190,15 @@ public class FachadaExcel {
     public Auditoria leerPortada(String ruta) throws IOException {
 
 
-
         Toast.makeText(contexto, "carga de datos portada", Toast.LENGTH_SHORT).show();
-		//recojo el archivo
+        //recojo el archivo
         File inputWorkbook = new File(ruta);
-		//entrada de flujo de archivo
-		FileInputStream input_document = new FileInputStream(inputWorkbook);
-		//creacion del libro xls
-		HSSFWorkbook book = new HSSFWorkbook(input_document);
-		//posicionapmieto en la hoja de datos  y configuracion en las celdas
-		HSSFSheet sPortada = book.getSheet("Portada");
+        //entrada de flujo de archivo
+        FileInputStream input_document = new FileInputStream(inputWorkbook);
+        //creacion del libro xls
+        HSSFWorkbook book = new HSSFWorkbook(input_document);
+        //posicionapmieto en la hoja de datos  y configuracion en las celdas
+        HSSFSheet sPortada = book.getSheet("Portada");
 
         //llamada al constructor que crea la auditoria
         auditoria = new Auditoria(ruta);
@@ -196,19 +207,19 @@ public class FachadaExcel {
         //si el libro existe
         if (inputWorkbook.exists()) {
             //celdas de portada
-            Cell celdafecha=sPortada.getRow(0).getCell(1);
-            Cell celdavisita=sPortada.getRow(1).getCell(1);
-            Cell celdaoperador=sPortada.getRow(2).getCell(1);
-            Cell celdanumvisita=sPortada.getRow(3).getCell(1);
+            Cell celdafecha = sPortada.getRow(0).getCell(1);
+            Cell celdavisita = sPortada.getRow(1).getCell(1);
+            Cell celdaoperador = sPortada.getRow(2).getCell(1);
+            Cell celdanumvisita = sPortada.getRow(3).getCell(1);
             //los mostramos en los editext
-            if(celdafecha!=null)
-            auditoria.setFecha((int) celdafecha.getNumericCellValue());
-            if(celdavisita!=null)
-            auditoria.setCodvista((int)celdavisita.getNumericCellValue());
-            if(celdaoperador!=null)
-            auditoria.setCodopeador((int)celdaoperador.getNumericCellValue());
-            if(celdanumvisita!=null)
-            auditoria.setNumvisita((int)celdanumvisita.getNumericCellValue());
+            if (celdafecha != null)
+                auditoria.setFecha((int) celdafecha.getNumericCellValue());
+            if (celdavisita != null)
+                auditoria.setCodvista((int) celdavisita.getNumericCellValue());
+            if (celdaoperador != null)
+                auditoria.setCodopeador((int) celdaoperador.getNumericCellValue());
+            if (celdanumvisita != null)
+                auditoria.setNumvisita((int) celdanumvisita.getNumericCellValue());
         }
         auditoria.setWorkbook(book);
         return auditoria;
@@ -276,7 +287,7 @@ public class FachadaExcel {
             //declaracion de obj noconformidad
             NoConformidad nc = null;
 
-            //vamos tomando los valores
+            //vamos tomando los valores de la tabla
             for (int i = 1; i < auditoria.getNoconformidades().size(); i++) {
                 //recuperamos cada uno de los valores de
                 nc = auditoria.getNoConformidad(i);
@@ -289,6 +300,7 @@ public class FachadaExcel {
 
 
     }
+
     //escritura en fichero excel la portada
     public void escribirPortada(Auditoria auditoria) throws NotFoundException, IOException {
 
@@ -297,17 +309,17 @@ public class FachadaExcel {
         //creacion del archivo
         File inputWorkbook = new File(nombreArchivo);
         //salida del flujo de datos hacia el libro, true para evitar que machaque datos
-        FileOutputStream fos = new FileOutputStream(inputWorkbook,false);
+        FileOutputStream fos = new FileOutputStream(inputWorkbook, false);
         //si el archivo se ha creado
         if (inputWorkbook.exists()) {
 
             HSSFSheet sPortada = auditoria.getWorkbook().getSheet("Portada");
 
             //tomamos los datos
-            Cell celdafecha=sPortada.getRow(0).getCell(1);
-            Cell celdavisita=sPortada.getRow(1).getCell(1);
-            Cell celdaoperador=sPortada.getRow(2).getCell(1);
-            Cell celdanumvisita=sPortada.getRow(3).getCell(1);
+            Cell celdafecha = sPortada.getRow(0).getCell(1);
+            Cell celdavisita = sPortada.getRow(1).getCell(1);
+            Cell celdaoperador = sPortada.getRow(2).getCell(1);
+            Cell celdanumvisita = sPortada.getRow(3).getCell(1);
 
             //y escribimos
             celdafecha.setCellValue(auditoria.getFecha());
@@ -317,10 +329,9 @@ public class FachadaExcel {
 
             //y escribimos
             auditoria.getWorkbook().write(fos);
-            }
-
-
         }
+
+    }
 
 
     /**
@@ -356,7 +367,7 @@ public class FachadaExcel {
      *
      * @param r
      */
-    private void escribirNoConformidades(NoConformidad nc, Row r) {
+    public void escribirNoConformidades(NoConformidad nc, Row r) {
 
         r.getCell(contexto.getResources().getInteger(R.integer.COL_REFERENCIA_NC)).setCellValue(nc.getNumero());
         r.getCell(contexto.getResources().getInteger(R.integer.COL_DESCRIPCION_NC)).setCellValue(nc.getDescripcion());
@@ -387,6 +398,7 @@ public class FachadaExcel {
 
     }
     */
+
     /**
      * metodo que escribe en la cabecera
      *
@@ -438,16 +450,16 @@ public class FachadaExcel {
         //si los datos no null
         //referencia int
         Cell cel = rDatosNoConf.getCell(contexto.getResources().getInteger(R.integer.COL_REFERENCIA_NC));
-        if (cel != null) nc.setNumero((int)cel.getNumericCellValue());
+        if (cel != null) nc.setNumero((int) cel.getNumericCellValue());
         //descripcion text
         cel = rDatosNoConf.getCell(contexto.getResources().getInteger(R.integer.COL_DESCRIPCION_NC));
         if (cel != null) nc.setDescripcion(cel.getStringCellValue().trim());
         //requisito char
         cel = rDatosNoConf.getCell(contexto.getResources().getInteger(R.integer.COL_REQUISITOS_NC));
-        if (cel != null) nc.setRequisito(cel.getStringCellValue().trim());
+        if (cel != null) nc.setRequisito(String.valueOf(((int) cel.getNumericCellValue())));
         //tipo string
         cel = rDatosNoConf.getCell(contexto.getResources().getInteger(R.integer.COL_TIPO_NC));
-        if (cel != null) nc.setTipo(String.valueOf(cel.getNumericCellValue()));
+        if (cel != null) nc.setTipo(cel.getStringCellValue().trim());
         //devuelve la lista de no conformidades
         return nc;
     }
@@ -489,7 +501,7 @@ public class FachadaExcel {
                     for (int j = 0; j < ficheros.length; j++) {
                         //obtenemos la extension
                         String extension = getExtension(ficheros[j].getName());
-                        String nombre=ficheros[j].getName();
+                        String nombre = ficheros[j].getName();
                         if (extension.equals("xls")) {
                             lista.add(ficheros[j].getName());
                         }
@@ -505,14 +517,14 @@ public class FachadaExcel {
     /**
      * metodo para la creacion de una nueva  auditoria, cargando los datos desde la plantilla excel lv_eco
      *
-     * @param  nombre
+     * @param nombre
      * @return metodo leerListaConformidades de listade verificacion
      * @throws NotFoundException
      * @throws IOException
      */
     public Auditoria nuevaauditoria(String nombre) throws NotFoundException, IOException {
 
-        String nombreArchivo=nombre;
+        String nombreArchivo = nombre;
 
         if (!existe(nombreArchivo)) {
             //crea la carpeta para la auditoria
@@ -532,7 +544,7 @@ public class FachadaExcel {
             fos.close();
             is.close();
             //asignar la ruta completa al nombre del archivo
-            nombreArchivo=out.getAbsolutePath();
+            nombreArchivo = out.getAbsolutePath();
             Toast.makeText(contexto, "archivo de la auditoria creada", Toast.LENGTH_LONG).show();
             //llama al metodo leerListaConformidades para cargar los datos de la nueva lista en la interfaz
             return leerPortada(nombreArchivo);
@@ -590,5 +602,73 @@ public class FachadaExcel {
         out.close();
     }
 
+    //ruta de la firma ejemplo : /storage/emulated/0/Listas_Verificacion/firma.png
+    //guardar firma en un excel
+    public void guardarfirma(Auditoria auditoria) throws IOException {
+
+        //recojo el archivo
+        File inputWorkbook = new File(auditoria.getNombreArchivo());
+        //entrada de flujo de archivo
+        FileInputStream input_document = new FileInputStream(inputWorkbook);
+        //creacion del libro xls
+        HSSFWorkbook book = new HSSFWorkbook(input_document);
+        //lo asginamos a la auditoria
+        auditoria.setWorkbook(book);
+
+        //salida del flujo de datos hacia el libro, true para evitar que machaque datos
+        FileOutputStream fos = new FileOutputStream(inputWorkbook);
+
+        //si el archivo se ha creado
+        if (inputWorkbook.exists()) {
+
+            HSSFSheet sfirma = book.getSheet("Firma");
+
+            //recogemos la firma
+            bitmapfirma= firmaVista.getfirma();
+
+
+            //FileInputStream obtains input bytes from the image file
+            InputStream inputStream = new FileInputStream("/storage/emulated/0/Listas_Verificacion/firma.png");
+            //Get the contents of an InputStream as a byte[].
+            byte[] bytes = IOUtils.toByteArray(inputStream);
+            //Adds a picture to the workbook
+            int pictureIdx = book.addPicture(bytes, book.PICTURE_TYPE_PNG);
+            //close the input stream
+            inputStream.close();
+
+            //Returns an object that handles instantiating concrete classes
+            CreationHelper helper = book.getCreationHelper();
+
+            //Creates the top-level drawing patriarch.
+            Drawing drawing = sfirma.createDrawingPatriarch();
+
+            //Create an anchor that is attached to the worksheet
+            ClientAnchor anchor = helper.createClientAnchor();
+            //definimos las esquinas de la imagen
+            //superior izquierda
+            anchor.setCol1(2);
+            //superior derecha
+            anchor.setCol2(8);
+            //inferior izquierada
+            anchor.setRow1(3);
+            //inferior derecha
+            anchor.setRow2(9);
+
+            //Creates a picture
+            Picture pict = drawing.createPicture(anchor, pictureIdx);
+            //Reset the image to the original size
+            //pict.resize();
+
+            //Write the Excel file
+
+            //y escribimos
+            auditoria.getWorkbook().write(fos);
+            fos.close();
+
+
+        }
+
+
+    }
 
 }

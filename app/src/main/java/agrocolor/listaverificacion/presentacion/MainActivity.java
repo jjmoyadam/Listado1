@@ -145,6 +145,7 @@ public class MainActivity extends ActionBarActivity {
             mostrarListadoLV();
             drawerList.setItemChecked(0, true);
         }
+
     }
 
     /**
@@ -428,17 +429,18 @@ public class MainActivity extends ActionBarActivity {
      */
     public void editarFirma(Auditoria auditoria,String nombre) {
 
-        FirmaFragment firmafragment = new FirmaFragment();
+        String nombreArchivo=auditoria.getNombreArchivo();
+
+        FirmaFragment fragmentfirma = new FirmaFragment();
 
         //pasamos los argumentos al fragment el nombre del archivo y si es nueva o no
-        //Bundle args = new Bundle();
-        //args.putString(PortadaFragment.ARG_NOMBRE_AUDITORIA, nombreArchivo);
-        //args.putBoolean(PortadaFragment.ARG_NUEVA_AUDITORIA, nuevo);
+        Bundle args = new Bundle();
+        args.putString(FirmaFragment.ARG_NOMBRE_AUDITORIA, nombreArchivo);
         //lo asignamos con el set
-        //fragmentportada.setArguments(args);
+        fragmentfirma.setArguments(args);
         //mediante el fragmentManager reemplazamos el content_frame por el fragment creado con los datos
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, firmafragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragmentfirma).commit();
         //selecion por defecto del elemento
         drawerList.setItemChecked(POSICION_NUEVA_LISTA, true);
         setTitle(getResources().getString(R.string.tit_portadaauditoria)+" : "+nombre);
@@ -524,7 +526,6 @@ public class MainActivity extends ActionBarActivity {
                             Toast.makeText(getBaseContext(), getResources().getString(R.string.msg_archivo_existe), Toast.LENGTH_SHORT).show();
                         else {
                             //nombre que contiene la ruta total
-
                             auditoria=new Auditoria(nombre);
                             //si ok llamamos al metodo de editar lista de verificaciones  para añadir un nuevo archivo
                             editarPortada(auditoria, true, nombre);

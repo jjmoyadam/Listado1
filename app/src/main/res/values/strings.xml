@@ -63,6 +63,7 @@
 
     <string name="add_nc">Añadir No Conformidad</string>
     <string name="borrar_nc">Borrar No Conformidad</string>
+    <string name="guardar_nc">Guardar No Conformidad</string>
 
     <string name="borrar_firma">Borrar Firma</string>
     <string name="guardar_firma">Guardar Firma</string>

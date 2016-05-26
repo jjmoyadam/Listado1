@@ -32,7 +32,6 @@ public class FirmaVista extends View {
     private Bitmap canvasBitmap;
 
 
-
     public FirmaVista(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupDrawing();
@@ -102,6 +101,12 @@ public class FirmaVista extends View {
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
     }
+
+    //recuperar del draw
+    public Bitmap getfirma() {
+        return canvasBitmap;
+    }
+
 }
 
 
