@@ -623,9 +623,6 @@ public class FachadaExcel {
 
             HSSFSheet sfirma = book.getSheet("Firma");
 
-            //recogemos la firma
-            bitmapfirma= firmaVista.getfirma();
-
 
             //FileInputStream obtains input bytes from the image file
             InputStream inputStream = new FileInputStream("/storage/emulated/0/Listas_Verificacion/firma.png");

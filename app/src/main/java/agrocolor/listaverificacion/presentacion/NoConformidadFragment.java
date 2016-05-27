@@ -225,7 +225,6 @@ public class NoConformidadFragment extends Fragment {
         edrequisito = new EditText(getContext());
         cbseleccion = new CheckBox(getContext());
 
-
         //adaptador de array para requisito
         ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(getContext(), R.array.valores_noconformidad, R.layout.layout_spinner);
         //y cargamos
@@ -322,7 +321,6 @@ public class NoConformidadFragment extends Fragment {
 
 
             //fachadaExcel.escribirNoConformidades(nc,fila);
-
 
         }
 

@@ -80,9 +80,11 @@ public class FirmaFragment extends Fragment {
                 firmarvista.startNew();
                 Toast.makeText(contexto,"Borrar Firma",Toast.LENGTH_SHORT).show();
                 return true;
+
             case R.id.btn_GuardarFirma:
                 try {
                     fachadaExcel.guardarfirma(auditoria);
+                    firmarvista.startNew();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
