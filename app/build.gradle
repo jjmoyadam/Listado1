@@ -21,8 +21,8 @@ android {
 dependencies {
     compile files('libs/poi-3.13-20150929.jar')
     compile files('libs/util.jar')
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
-    compile 'com.android.support:support-v4:23.3.0'
     compile files('libs/commons-codec-1.10.jar')
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:support-v4:23.4.0'
 }
